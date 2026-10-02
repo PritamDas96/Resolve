@@ -115,6 +115,11 @@ module = "tests.*"
 disallow_untyped_defs = false
 disallow_incomplete_defs = false
 
+[[tool.mypy.overrides]]
+# curl_cffi ships no type stubs; it is used only behind the fetch_export_text seam.
+module = "curl_cffi.*"
+ignore_missing_imports = true
+
 # ---------------------------------------------------------------------------
 # Pytest.
 # ---------------------------------------------------------------------------

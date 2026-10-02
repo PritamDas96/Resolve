@@ -13,6 +13,7 @@ switch ($Target) {
     "format"    { uv run ruff format .; uv run ruff check --fix . }
     "typecheck" { uv run mypy }
     "test"      { uv run pytest }
+    "data"      { uv run python -m resolve.data.cfpb_ingest }
     "up"        { docker compose -f docker/compose.yaml up -d }
     "down"      { docker compose -f docker/compose.yaml down }
     "ps"        { docker compose -f docker/compose.yaml ps }
@@ -23,10 +24,11 @@ switch ($Target) {
         Write-Host "  format     Auto-format and auto-fix"
         Write-Host "  typecheck  Run mypy only"
         Write-Host "  test       Run the test suite"
+        Write-Host "  data       Ingest CFPB complaint metadata for the six banks"
         Write-Host "  up         Start the database stack (Postgres + Qdrant) via Docker"
         Write-Host "  down       Stop the database stack (keeps data)"
         Write-Host "  ps         Show database stack status"
         Write-Host ""
-        Write-Host "Later phases (data/index/seed/eval-*) are available via the Makefile on Linux/CI."
+        Write-Host "Later phases (index/seed/eval-*) are available via the Makefile on Linux/CI."
     }
 }

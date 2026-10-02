@@ -16,9 +16,52 @@ point the raw value is needed (e.g. when configuring an HTTP client).
 from __future__ import annotations
 
 from functools import lru_cache
+from pathlib import Path
 
 from pydantic import Field, SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+# --- CFPB data-source constants (see ADR-014, PLAN §7.2) --------------------
+# The CFPB search API is Akamai-protected: plain curl/httpx receive a 403, so
+# requests must impersonate a real browser's TLS fingerprint via ``curl_cffi``.
+CFPB_API_BASE = "https://www.consumerfinance.gov/data-research/consumer-complaints/search/api/v1/"
+CFPB_IMPERSONATE = "chrome"
+
+# The six in-scope banks, mapped from display name to the exact company
+# string(s) used in the CFPB data. Verified against the live ``company``
+# aggregation on 2026-10-02 (PLAN §7.2 step 3). A tuple allows adding subsidiary
+# strings later without changing the type.
+BANKS: dict[str, tuple[str, ...]] = {
+    "JPMorgan Chase": ("JPMORGAN CHASE & CO.",),
+    "Bank of America": ("BANK OF AMERICA, NATIONAL ASSOCIATION",),
+    "Wells Fargo": ("WELLS FARGO & COMPANY",),
+    "Citi": ("CITIBANK, N.A.",),
+    "Capital One": ("CAPITAL ONE FINANCIAL CORPORATION",),
+    "U.S. Bank": ("U.S. BANCORP",),
+}
+
+# Current and legacy CFPB ``product`` strings for the five in-scope product
+# families (Reg E/DD deposits, Reg Z cards, Reg X mortgage, Reg V credit
+# reporting as furnisher). CFPB revised its taxonomy in 2017, so both the
+# current and pre-2017 labels appear across the date range; the coarse filter
+# keeps all of them, and fine normalisation to a single scheme is Task 2 (§7.3).
+IN_SCOPE_PRODUCTS: frozenset[str] = frozenset(
+    {
+        # Deposits (Reg E / Reg DD)
+        "Checking or savings account",
+        "Bank account or service",
+        # Cards (Reg Z)
+        "Credit card or prepaid card",
+        "Credit card",
+        "Prepaid card",
+        # Mortgage (Reg X)
+        "Mortgage",
+        # Credit reporting as furnisher (Reg V)
+        "Credit reporting or other personal consumer reports",
+        "Credit reporting, credit repair services, or other personal consumer reports",
+        "Credit reporting",
+    }
+)
 
 
 class Settings(BaseSettings):
@@ -79,6 +122,20 @@ class Settings(BaseSettings):
     qdrant_url: str = Field(
         default="http://localhost:6333",
         description="Base URL of the Qdrant vector database.",
+    )
+
+    # --- Data ingestion ------------------------------------------------------
+    data_dir: Path = Field(
+        default=Path("data"),
+        description="Root directory for raw/interim/processed data and manifests.",
+    )
+    cfpb_since_year: int = Field(
+        default=2012,
+        description="Earliest complaint year to ingest; CFPB data begins in 2011/2012.",
+    )
+    cfpb_request_delay_s: float = Field(
+        default=1.0,
+        description="Polite delay between CFPB export requests, in seconds (~1 req/s).",
     )
 
 

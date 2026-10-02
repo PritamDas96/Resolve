@@ -25,9 +25,11 @@ typecheck:  ## Run mypy only
 test:  ## Run the test suite
 	uv run pytest
 
+# --- Data (Phase 1) ---------------------------------------------------------
+data:  ## (Phase 1) Ingest CFPB complaint metadata for the six banks
+	uv run python -m resolve.data.cfpb_ingest
+
 # --- Targets implemented in later phases ------------------------------------
-data:  ## (Phase 1) Build all data + manifests
-	@echo "Not implemented until Phase 1."
 index:  ## (Phase 3) Build/refresh Qdrant collections
 	@echo "Not implemented until Phase 3."
 up:  ## Start the local database stack (Postgres + Qdrant)
