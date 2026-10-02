@@ -30,10 +30,12 @@ data:  ## (Phase 1) Build all data + manifests
 	@echo "Not implemented until Phase 1."
 index:  ## (Phase 3) Build/refresh Qdrant collections
 	@echo "Not implemented until Phase 3."
-up:  ## (Phase 1) Start the docker-compose stack
-	@echo "Not implemented until Phase 1."
-down:  ## (Phase 1) Stop the docker-compose stack
-	@echo "Not implemented until Phase 1."
+up:  ## Start the local database stack (Postgres + Qdrant)
+	docker compose -f docker/compose.yaml up -d
+down:  ## Stop the local database stack (keeps data; add -v to wipe)
+	docker compose -f docker/compose.yaml down
+ps:  ## Show the database stack status
+	docker compose -f docker/compose.yaml ps
 seed:  ## (Phase 6) Schema, RLS, audit, users + data into Postgres
 	@echo "Not implemented until Phase 6."
 seed-ci:  ## (Phase 5) Deterministic CI data slice
