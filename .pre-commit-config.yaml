@@ -22,14 +22,18 @@ repos:
         args: [--fix]
       - id: ruff-format
 
-  - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.13.0
+  # Mypy runs in the project environment (via uv), so the hook sees the exact
+  # same dependencies, plugins and config as local `make lint` and CI. This
+  # avoids the "passes locally, fails in the isolated hook" divergence (the
+  # isolated hook lacks pytest, which makes test decorators look untyped).
+  - repo: local
     hooks:
       - id: mypy
-        additional_dependencies:
-          - pydantic>=2.9
-          - pydantic-settings>=2.5
-          - structlog>=24.4
+        name: mypy (strict, project env)
+        entry: uv run mypy
+        language: system
+        types: [python]
+        pass_filenames: false
 
   - repo: https://github.com/gitleaks/gitleaks
     rev: v8.21.2
