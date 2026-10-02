@@ -1,0 +1,111 @@
+# ============================================================================
+# RESOLVE — project definition, dependencies and tooling configuration.
+#
+# Managed with `uv`. Runtime dependencies live under [project.dependencies];
+# development-only tools live under [dependency-groups.dev] (installed by
+# `uv sync` by default). Exact versions are pinned in `uv.lock` for
+# reproducibility — this file only declares compatible ranges.
+#
+# NOTE: dependencies are added phase-by-phase, deliberately. Phase 0 ships only
+# the foundational libraries (settings + structured logging) plus the quality
+# toolchain. The full stack (FastAPI, LangGraph, Qdrant, etc.) arrives with the
+# phases that need it — see docs/PLAN.md, Appendix C.
+# ============================================================================
+
+[project]
+name = "resolve"
+version = "0.0.0"
+description = "An evaluated, guarded, observable complaint-resolution agent for US bank operations."
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [{ name = "Pritam Das" }]
+keywords = ["llm", "agents", "rag", "langgraph", "mcp", "compliance", "cfpb"]
+
+dependencies = [
+    "pydantic>=2.9",          # typed domain models and validation at boundaries
+    "pydantic-settings>=2.5", # environment-driven configuration
+    "structlog>=24.4",        # structured JSON logging
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3",
+    "pytest-asyncio>=0.24",
+    "hypothesis>=6.112",
+    "ruff>=0.7",
+    "mypy>=1.13",
+    "pre-commit>=4.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/resolve"]
+
+# ---------------------------------------------------------------------------
+# Ruff — linting, import sorting and formatting.
+# ---------------------------------------------------------------------------
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = ["src", "tests"]
+# Don't format/lint the Markdown plan files — their code blocks are illustrative
+# (and sometimes pseudo-code) and must not be rewritten.
+extend-exclude = ["*.md"]
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort (import ordering)
+    "N",   # pep8-naming
+    "UP",  # pyupgrade (modern syntax)
+    "B",   # flake8-bugbear (likely bugs)
+    "C4",  # flake8-comprehensions
+    "SIM", # flake8-simplify
+    "PTH", # flake8-use-pathlib
+    "RUF", # ruff-specific rules
+    "D",   # pydocstyle (docstring presence and style)
+]
+# D203/D213 conflict with the Google convention we adopt below; disable them.
+ignore = ["D203", "D213"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.per-file-ignores]
+# Tests are self-documenting via their names; don't require docstrings there.
+"tests/**" = ["D"]
+
+# ---------------------------------------------------------------------------
+# Mypy — static type checking (strict).
+# ---------------------------------------------------------------------------
+[tool.mypy]
+python_version = "3.12"
+strict = true
+warn_unused_configs = true
+mypy_path = "src"
+explicit_package_bases = true
+files = ["src", "tests"]
+# The pydantic plugin teaches mypy that BaseSettings fields may be sourced from
+# the environment, so constructing Settings() without arguments is valid.
+plugins = ["pydantic.mypy"]
+
+[[tool.mypy.overrides]]
+# Test functions use pytest fixtures whose types we don't want to annotate by hand.
+module = "tests.*"
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+
+# ---------------------------------------------------------------------------
+# Pytest.
+# ---------------------------------------------------------------------------
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra -q --strict-markers"
+asyncio_mode = "auto"
+pythonpath = ["src"]

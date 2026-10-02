@@ -1,0 +1,9 @@
+# Normalise line endings: store everything as LF in the repository, regardless
+# of the contributor's OS. Prevents noisy CRLF/LF diffs on Windows.
+* text=auto eol=lf
+
+# Explicitly binary (never touch line endings):
+*.png binary
+*.jpg binary
+*.pdf binary
+*.parquet binary

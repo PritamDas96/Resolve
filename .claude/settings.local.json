@@ -1,0 +1,29 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:genai.owasp.org)",
+      "WebFetch(domain:langfuse.com)",
+      "WebFetch(domain:docs.ragas.io)",
+      "WebFetch(domain:holidays.readthedocs.io)",
+      "WebFetch(domain:faker.readthedocs.io)",
+      "WebFetch(domain:microsoft.github.io)",
+      "WebFetch(domain:qdrant.tech)",
+      "WebFetch(domain:docs.claude.com)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:www.ecfr.gov)",
+      "WebFetch(domain:cfpb.github.io)",
+      "WebFetch(domain:www.consumerfinance.gov)",
+      "WebFetch(domain:data-privacy-stack.github.io)",
+      "Bash(curl -s \"https://raw.githubusercontent.com/cfpb/ccdb5-api/main/swagger-config.yaml\")",
+      "Bash(curl -s -o NUL -w \"%{http_code}\\\\n\" \"https://www.consumerfinance.gov/data-research/consumer-complaints/search/api/v1/?size=1&has_narrative=true&company=EQUIFAX,%20INC.&format=json\")",
+      "Bash(curl -s \"https://www.consumerfinance.gov/data-research/consumer-complaints/search/api/v1/?size=1&has_narrative=true&format=json\")",
+      "Bash(grep -iE \"name: \\(has_narr|no_narr|narrative|company$\\)\")",
+      "Bash(grep -iA12 \"^      name: field\")",
+      "Bash(curl *)",
+      "Bash(python -c \"import sys,json;d=json.load\\(sys.stdin\\);print\\([k for k in d.get\\('aggregations',{}\\).keys\\(\\)][:30]\\)\")",
+      "PowerShell(uv sync *)",
+      "PowerShell(uv run *)"
+    ]
+  }
+}
