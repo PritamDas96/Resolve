@@ -29,6 +29,7 @@ dependencies = [
     "faker>=40.40.0",
     "httpx>=0.28.1",
     "lxml>=6.1.3",
+    "pdfplumber>=0.11.10",
     "polars>=1.44.2",
     "pyarrow>=25.0.1",
     "pydantic>=2.9",          # typed domain models and validation at boundaries
@@ -125,6 +126,11 @@ ignore_missing_imports = true
 [[tool.mypy.overrides]]
 # asyncpg ships no complete stubs; used only behind the synth_accounts load seam.
 module = "asyncpg.*"
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+# pdfplumber ships no type stubs; used only in bank_docs_ingest extraction.
+module = "pdfplumber.*"
 ignore_missing_imports = true
 
 # ---------------------------------------------------------------------------
