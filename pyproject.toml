@@ -23,9 +23,21 @@ authors = [{ name = "Pritam Das" }]
 keywords = ["llm", "agents", "rag", "langgraph", "mcp", "compliance", "cfpb"]
 
 dependencies = [
+    "asyncpg>=0.31.0",
+    "curl-cffi>=0.16.3",
+    "duckdb>=1.5.6",
+    "faker>=40.40.0",
+    "httpx>=0.28.1",
+    "lxml>=6.1.3",
+    "pdfplumber>=0.11.10",
+    "polars>=1.44.2",
+    "pyarrow>=25.0.1",
     "pydantic>=2.9",          # typed domain models and validation at boundaries
     "pydantic-settings>=2.5", # environment-driven configuration
+    "pyyaml>=6.0.3",
+    "sqlalchemy[asyncio]>=2.1.2",
     "structlog>=24.4",        # structured JSON logging
+    "tenacity>=9.1.4",
 ]
 
 [dependency-groups]
@@ -36,6 +48,9 @@ dev = [
     "ruff>=0.7",
     "mypy>=1.13",
     "pre-commit>=4.0",
+    "types-pyyaml>=6.0.12.20260906",
+    "lxml-stubs>=0.5.1",
+    "asyncpg-stubs>=0.31.3",
 ]
 
 [build-system]
@@ -53,8 +68,10 @@ line-length = 100
 target-version = "py312"
 src = ["src", "tests"]
 # Don't format/lint the Markdown plan files — their code blocks are illustrative
-# (and sometimes pseudo-code) and must not be rewritten.
-extend-exclude = ["*.md"]
+# (and sometimes pseudo-code) and must not be rewritten. taxonomy_enums.py is
+# generated (verbatim CFPB strings exceed the line length) and verified in sync by
+# a test, so ruff must not rewrite it.
+extend-exclude = ["*.md", "src/resolve/data/taxonomy_enums.py"]
 
 [tool.ruff.lint]
 select = [
@@ -100,6 +117,21 @@ plugins = ["pydantic.mypy"]
 module = "tests.*"
 disallow_untyped_defs = false
 disallow_incomplete_defs = false
+
+[[tool.mypy.overrides]]
+# curl_cffi ships no type stubs; it is used only behind the fetch_export_text seam.
+module = "curl_cffi.*"
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+# asyncpg ships no complete stubs; used only behind the synth_accounts load seam.
+module = "asyncpg.*"
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+# pdfplumber ships no type stubs; used only in bank_docs_ingest extraction.
+module = "pdfplumber.*"
+ignore_missing_imports = true
 
 # ---------------------------------------------------------------------------
 # Pytest.

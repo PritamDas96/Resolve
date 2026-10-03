@@ -1,0 +1,507 @@
+{
+  "api_base": "https://www.consumerfinance.gov/data-research/consumer-complaints/search/api/v1/",
+  "exports": [
+    {
+      "path": "data\\raw\\cfpb\\jpmorgan_chase_co\\2012.csv",
+      "rows": 14549,
+      "sha256": "564ab2c0e6192af794354be2861bda9a6edeef9d20a007b7e698cb337d496a05"
+    },
+    {
+      "path": "data\\raw\\cfpb\\jpmorgan_chase_co\\2013.csv",
+      "rows": 15971,
+      "sha256": "62a43e00ec155984aab4dc37cf49b8b076f0d4e843abe2333580a9aefe9dc8c8"
+    },
+    {
+      "path": "data\\raw\\cfpb\\jpmorgan_chase_co\\2014.csv",
+      "rows": 15469,
+      "sha256": "148fe1545f6a2ce5e0d1148226c1315f40665e45bfa7d5ea480a940b129767c7"
+    },
+    {
+      "path": "data\\raw\\cfpb\\jpmorgan_chase_co\\2015.csv",
+      "rows": 15937,
+      "sha256": "45c12f572f7f0ef45e3393e67fc395eff73c293a429182245b2a264964aa2a5f"
+    },
+    {
+      "path": "data\\raw\\cfpb\\jpmorgan_chase_co\\2016.csv",
+      "rows": 17523,
+      "sha256": "520a7b1cff3f7278d25a4ef7b12f82d09da354c70deb9225dcbe826c7038b475"
+    },
+    {
+      "path": "data\\raw\\cfpb\\jpmorgan_chase_co\\2017.csv",
+      "rows": 16781,
+      "sha256": "324e8fa9d7ab1c82799a133f4591bfb55e636dd253a49ca4723b2d8e4e88eb1e"
+    },
+    {
+      "path": "data\\raw\\cfpb\\jpmorgan_chase_co\\2018.csv",
+      "rows": 17813,
+      "sha256": "128cafc9aa22a2f552ff96fd9dbcde20874cece15c9085497afb80c1804d5041"
+    },
+    {
+      "path": "data\\raw\\cfpb\\jpmorgan_chase_co\\2019.csv",
+      "rows": 16521,
+      "sha256": "4ccd5a578e26ab0216a3771127b2f013ea2ac2410b740a44cd4150b67c93c0a4"
+    },
+    {
+      "path": "data\\raw\\cfpb\\jpmorgan_chase_co\\2020.csv",
+      "rows": 18449,
+      "sha256": "6545c52f7e957ca669ddb8f40a7110a1ec931a11d99692f330fcff8c9ff37412"
+    },
+    {
+      "path": "data\\raw\\cfpb\\jpmorgan_chase_co\\2021.csv",
+      "rows": 21519,
+      "sha256": "3cdc364e2bb8fd496c3a69b875dcd65b956693e25b5d4e11037a19fd8e553282"
+    },
+    {
+      "path": "data\\raw\\cfpb\\jpmorgan_chase_co\\2022.csv",
+      "rows": 24243,
+      "sha256": "bcbe95244343cfb390ee0abe9f2765b07f636650da5b1e74f470b0abe8f6c058"
+    },
+    {
+      "path": "data\\raw\\cfpb\\jpmorgan_chase_co\\2023.csv",
+      "rows": 31231,
+      "sha256": "8bb15037064bf20540c154ccec8d3cb0918faa224509a00a7228088ecfc74699"
+    },
+    {
+      "path": "data\\raw\\cfpb\\jpmorgan_chase_co\\2024.csv",
+      "rows": 38467,
+      "sha256": "f642953a827763d84f8224b2d4dbe52bc7a5be453299be3cf830b38954fa9950"
+    },
+    {
+      "path": "data\\raw\\cfpb\\jpmorgan_chase_co\\2025.csv",
+      "rows": 48917,
+      "sha256": "a967242bfe323e945414dc468e20762c29c27edbd3775996b7c34d8e045da47e"
+    },
+    {
+      "path": "data\\raw\\cfpb\\jpmorgan_chase_co\\2026.csv",
+      "rows": 39719,
+      "sha256": "5d3a67a9629e3f2528058d16cd7f76d8e2a86407feb31dfc26baa5b5606d9e04"
+    },
+    {
+      "path": "data\\raw\\cfpb\\bank_of_america_national_association\\2012.csv",
+      "rows": 32037,
+      "sha256": "85198171ea58d014ea274e7aa43605d917ee1931d2b2bc24df16b838239fa4d1"
+    },
+    {
+      "path": "data\\raw\\cfpb\\bank_of_america_national_association\\2013.csv",
+      "rows": 32903,
+      "sha256": "0023dcd107a628635cca8f31f850f17e3c4daa68b5f7a91890790f11a9d1a2e4"
+    },
+    {
+      "path": "data\\raw\\cfpb\\bank_of_america_national_association\\2014.csv",
+      "rows": 20573,
+      "sha256": "12e4b598fb8e6ca663ee960d39cf2bb1e2106a8dc85111ae9b23b22d387e06bf"
+    },
+    {
+      "path": "data\\raw\\cfpb\\bank_of_america_national_association\\2015.csv",
+      "rows": 19663,
+      "sha256": "b596643ce233d06c00f0e8955bd50fd800590b52aab85393a1d50b17c43ac397"
+    },
+    {
+      "path": "data\\raw\\cfpb\\bank_of_america_national_association\\2016.csv",
+      "rows": 19565,
+      "sha256": "7723b162cea8079fadeb24b67b754b21f642b233dbe50e6c92a9875e352d8f9c"
+    },
+    {
+      "path": "data\\raw\\cfpb\\bank_of_america_national_association\\2017.csv",
+      "rows": 17557,
+      "sha256": "c8fe57b8f005bde661a9cdffda1c69842d24c6e5171a4d6e9867a938ab66280b"
+    },
+    {
+      "path": "data\\raw\\cfpb\\bank_of_america_national_association\\2018.csv",
+      "rows": 16623,
+      "sha256": "cb688ecc272df89dec2d0948d9d8403c9c4c4dd90eb63c4515329e775ed56c03"
+    },
+    {
+      "path": "data\\raw\\cfpb\\bank_of_america_national_association\\2019.csv",
+      "rows": 15071,
+      "sha256": "3ae882acf5d7425974e849929da67b31dd2569378c69a1a2797b1baf74484fc6"
+    },
+    {
+      "path": "data\\raw\\cfpb\\bank_of_america_national_association\\2020.csv",
+      "rows": 18897,
+      "sha256": "e95826bbf97a290e7d4f27c56bf097e55a741202410770cfd07bae83238d8667"
+    },
+    {
+      "path": "data\\raw\\cfpb\\bank_of_america_national_association\\2021.csv",
+      "rows": 22855,
+      "sha256": "0024c3b984993781503359c6ac1fc433195a8d5da8bc5913d8d0e236780d6976"
+    },
+    {
+      "path": "data\\raw\\cfpb\\bank_of_america_national_association\\2022.csv",
+      "rows": 26115,
+      "sha256": "0ea003e38487e42413c255a9e108d2d698aa18932d16478b38a285f74ce638ee"
+    },
+    {
+      "path": "data\\raw\\cfpb\\bank_of_america_national_association\\2023.csv",
+      "rows": 28631,
+      "sha256": "185eba082c91a8a602722b6042bf0ac42e84c689233911734678036cda3606ce"
+    },
+    {
+      "path": "data\\raw\\cfpb\\bank_of_america_national_association\\2024.csv",
+      "rows": 28647,
+      "sha256": "961b6b67fa8cea728a9f0a7f4d1bedfd1359cafd61a95dba618b78098edea4b3"
+    },
+    {
+      "path": "data\\raw\\cfpb\\bank_of_america_national_association\\2025.csv",
+      "rows": 38337,
+      "sha256": "daddb1b0dfe9c2d913163c09c3e8e827d490dfa5eb935ac05136c138b5acd184"
+    },
+    {
+      "path": "data\\raw\\cfpb\\bank_of_america_national_association\\2026.csv",
+      "rows": 36979,
+      "sha256": "c4e9bf1a75a200cd313e75508971c9fcd4c9bd062b8dc168c8b0f043884eebb4"
+    },
+    {
+      "path": "data\\raw\\cfpb\\wells_fargo_company\\2012.csv",
+      "rows": 18851,
+      "sha256": "4c3e568275f9098cb97eefba6292af7b9b21baa5b4ea6c4ffb21f77494438a11"
+    },
+    {
+      "path": "data\\raw\\cfpb\\wells_fargo_company\\2013.csv",
+      "rows": 22247,
+      "sha256": "3d4efd0e27dd869f04dc17d058e24a4b4348f2a11ebe0b5677306cbe5c0e3952"
+    },
+    {
+      "path": "data\\raw\\cfpb\\wells_fargo_company\\2014.csv",
+      "rows": 18331,
+      "sha256": "4dc5eaf55de3e76f9b8142fd6c1491fa6635ff9114b11373cec30141b71b18b2"
+    },
+    {
+      "path": "data\\raw\\cfpb\\wells_fargo_company\\2015.csv",
+      "rows": 18563,
+      "sha256": "70840c3beaeec3e21fef36e021578c55ce4b932d175edc5857fbbda6bd1a32f6"
+    },
+    {
+      "path": "data\\raw\\cfpb\\wells_fargo_company\\2016.csv",
+      "rows": 22397,
+      "sha256": "838b9ce9326435eb474876beecc050eed9c5dcc025f903bfb5ff7f96ffbb754f"
+    },
+    {
+      "path": "data\\raw\\cfpb\\wells_fargo_company\\2017.csv",
+      "rows": 18129,
+      "sha256": "64296d28f6f7cdafe9ff9558656e004466cf81fb02a9e6a63c07eefe2ef814af"
+    },
+    {
+      "path": "data\\raw\\cfpb\\wells_fargo_company\\2018.csv",
+      "rows": 17579,
+      "sha256": "c403be72701003c9a518a06424734f6a35bd5323c46f0a28e26b3b175cb990fd"
+    },
+    {
+      "path": "data\\raw\\cfpb\\wells_fargo_company\\2019.csv",
+      "rows": 14847,
+      "sha256": "0ce94c47dde262b91831ca4dbfd436aa440984f5fb8436ce8e4ba0ecb244e2b7"
+    },
+    {
+      "path": "data\\raw\\cfpb\\wells_fargo_company\\2020.csv",
+      "rows": 15069,
+      "sha256": "dd0cbc44284cb08a988dad9fb8429eced823cb2d4f06366c469f03e79be4d567"
+    },
+    {
+      "path": "data\\raw\\cfpb\\wells_fargo_company\\2021.csv",
+      "rows": 18133,
+      "sha256": "d73fe121a1957b4b8c54d3674378df7d582c78569757178a0c187bad7d30b2be"
+    },
+    {
+      "path": "data\\raw\\cfpb\\wells_fargo_company\\2022.csv",
+      "rows": 21645,
+      "sha256": "b9ef7c4776e941aeea7eb1e09684f318ddb66b883c70d2bedc06fa59d975b8b4"
+    },
+    {
+      "path": "data\\raw\\cfpb\\wells_fargo_company\\2023.csv",
+      "rows": 41445,
+      "sha256": "31098cc7db36cff55095678e706a32492b07a85ec66911744a1c09ed8028e6fe"
+    },
+    {
+      "path": "data\\raw\\cfpb\\wells_fargo_company\\2024.csv",
+      "rows": 30363,
+      "sha256": "145346684766795474290810857f2d2205b5218b826626b50c5d38805e0fce80"
+    },
+    {
+      "path": "data\\raw\\cfpb\\wells_fargo_company\\2025.csv",
+      "rows": 38937,
+      "sha256": "ea77b6eedcf8ada3c59aa4df9b18390e1408d844e7bf47e4aa845a08aa061cb0"
+    },
+    {
+      "path": "data\\raw\\cfpb\\wells_fargo_company\\2026.csv",
+      "rows": 34491,
+      "sha256": "e8ff18b4fc1241ca120200f61b4273ae0b757f904aec7148119948f30ce2646c"
+    },
+    {
+      "path": "data\\raw\\cfpb\\citibank_n_a\\2012.csv",
+      "rows": 10841,
+      "sha256": "b1ae42a5b5d7c0d10c3055b3e2fad0b8e41f2e1d43034ea029125659357533b2"
+    },
+    {
+      "path": "data\\raw\\cfpb\\citibank_n_a\\2013.csv",
+      "rows": 11753,
+      "sha256": "8155d1f27710b952b59e9ef9311f1e061c3e2f655da108c3ed8cdebdcfece24f"
+    },
+    {
+      "path": "data\\raw\\cfpb\\citibank_n_a\\2014.csv",
+      "rows": 11537,
+      "sha256": "1a20d6953246c3fb27e2b5729ddb18e70db93a1ff967430dbc17e189170e78c3"
+    },
+    {
+      "path": "data\\raw\\cfpb\\citibank_n_a\\2015.csv",
+      "rows": 12403,
+      "sha256": "930f83a654fc57a1756f4c2f070dfb2167d4e640db097c001533b5d01b85e5ec"
+    },
+    {
+      "path": "data\\raw\\cfpb\\citibank_n_a\\2016.csv",
+      "rows": 17405,
+      "sha256": "b5663f392135a5d5be17f47d6126724f5f86c2a384f8871281ac78f3375a6a47"
+    },
+    {
+      "path": "data\\raw\\cfpb\\citibank_n_a\\2017.csv",
+      "rows": 14385,
+      "sha256": "6f596a0d316041df967e5fd504472846bf1d816343ec604bc51d8734f10d2420"
+    },
+    {
+      "path": "data\\raw\\cfpb\\citibank_n_a\\2018.csv",
+      "rows": 14527,
+      "sha256": "6451b4293ad282159f822839a20797d34015e8456585bdd2ccfda2931a928ee7"
+    },
+    {
+      "path": "data\\raw\\cfpb\\citibank_n_a\\2019.csv",
+      "rows": 14131,
+      "sha256": "96d5049db323c1c5bcec78982307c1111c785f49bd7f454f64b6d287edf07bc1"
+    },
+    {
+      "path": "data\\raw\\cfpb\\citibank_n_a\\2020.csv",
+      "rows": 17441,
+      "sha256": "4cca3fd5da1b87fd5bd09d05f36faafffeb4a58ef136859afd0a481a880c73e5"
+    },
+    {
+      "path": "data\\raw\\cfpb\\citibank_n_a\\2021.csv",
+      "rows": 18631,
+      "sha256": "c669acce2b84754000aef50bd3154b09059f1cd8a0963fadbddf448e63f2771c"
+    },
+    {
+      "path": "data\\raw\\cfpb\\citibank_n_a\\2022.csv",
+      "rows": 17593,
+      "sha256": "13646f90aef76e86d43c426427754d6fa2a261a50bd8d2a9ddd5b553354f74cd"
+    },
+    {
+      "path": "data\\raw\\cfpb\\citibank_n_a\\2023.csv",
+      "rows": 19593,
+      "sha256": "541b8876d5057fa89ed1a6a592db0de2954242a5441507fbadf09c02de638af9"
+    },
+    {
+      "path": "data\\raw\\cfpb\\citibank_n_a\\2024.csv",
+      "rows": 29273,
+      "sha256": "12f8cd71dea50122c081170a6532f32557c421d42990c356bd89b43daf75b071"
+    },
+    {
+      "path": "data\\raw\\cfpb\\citibank_n_a\\2025.csv",
+      "rows": 39585,
+      "sha256": "7e5d6c8c99f0717e406ad03541247ec23299a01473186da4b08ec14a876d66e2"
+    },
+    {
+      "path": "data\\raw\\cfpb\\citibank_n_a\\2026.csv",
+      "rows": 35745,
+      "sha256": "f74b321a3de030d694cb405e86fdc3d46a61c98b57b186ad1bc02b8f486e7b37"
+    },
+    {
+      "path": "data\\raw\\cfpb\\capital_one_financial_corporation\\2012.csv",
+      "rows": 7747,
+      "sha256": "5a45491a3d6ea0f4ac0f34263e1262038b1878fcb5bb62ab2690b40772380232"
+    },
+    {
+      "path": "data\\raw\\cfpb\\capital_one_financial_corporation\\2013.csv",
+      "rows": 6655,
+      "sha256": "b7a8ca8c4cbce1fb19c097829c33c7276ccebc32f19f2484787364714d1fdc04"
+    },
+    {
+      "path": "data\\raw\\cfpb\\capital_one_financial_corporation\\2014.csv",
+      "rows": 6687,
+      "sha256": "252204f9198a5b4b46c72c2a8bb71286918d133bfa0ea26d6030ccaa6a73bdc3"
+    },
+    {
+      "path": "data\\raw\\cfpb\\capital_one_financial_corporation\\2015.csv",
+      "rows": 7381,
+      "sha256": "6bb2b99d0fd10582c84ab0866d79e024ba385c02441e7fb60c1660b1ee9f933f"
+    },
+    {
+      "path": "data\\raw\\cfpb\\capital_one_financial_corporation\\2016.csv",
+      "rows": 8521,
+      "sha256": "e253d01642e19a3abf2f1485eaa772e2f36d4eea55db72a02a7dcc98277121bb"
+    },
+    {
+      "path": "data\\raw\\cfpb\\capital_one_financial_corporation\\2017.csv",
+      "rows": 11641,
+      "sha256": "870e1af4d0101a15395159e28d60e4d3153dc5ad18021672f4651cd2d7768b59"
+    },
+    {
+      "path": "data\\raw\\cfpb\\capital_one_financial_corporation\\2018.csv",
+      "rows": 15357,
+      "sha256": "d38eb0e6db91e81616da05f9faab913836e30fb2c3a83214c9799562bd37d696"
+    },
+    {
+      "path": "data\\raw\\cfpb\\capital_one_financial_corporation\\2019.csv",
+      "rows": 15311,
+      "sha256": "93475aaeb8bbe12647ecdfdb14100f37c529a758ace6b58bc2487f40af206541"
+    },
+    {
+      "path": "data\\raw\\cfpb\\capital_one_financial_corporation\\2020.csv",
+      "rows": 19551,
+      "sha256": "288de67d33353d1b460dcb3c161a669db9d683ee121755bf9e73374162127092"
+    },
+    {
+      "path": "data\\raw\\cfpb\\capital_one_financial_corporation\\2021.csv",
+      "rows": 25039,
+      "sha256": "42e157dbff87a147477065cf975cf06fbed858a249a4fc87fbdf96a44739d6b3"
+    },
+    {
+      "path": "data\\raw\\cfpb\\capital_one_financial_corporation\\2022.csv",
+      "rows": 27009,
+      "sha256": "038a8f3801c4404badf6c6ebbe4f20a1498615b1d6a2518effcbe0a8666d8aad"
+    },
+    {
+      "path": "data\\raw\\cfpb\\capital_one_financial_corporation\\2023.csv",
+      "rows": 34037,
+      "sha256": "200fbb0f0148404d9219cddb7effa51dcdcb6c06c1bad39dcefb83915794996b"
+    },
+    {
+      "path": "data\\raw\\cfpb\\capital_one_financial_corporation\\2024.csv",
+      "rows": 40987,
+      "sha256": "c3a5595feeadce59213375a0dfe78d0392e957efa7bb9000a1c216ce91a73392"
+    },
+    {
+      "path": "data\\raw\\cfpb\\capital_one_financial_corporation\\2025.csv",
+      "rows": 68205,
+      "sha256": "0cf3131193fb0c86f227adcd817a9042a5c0523d9f44450ab5d11d56f9aeb503"
+    },
+    {
+      "path": "data\\raw\\cfpb\\capital_one_financial_corporation\\2026.csv",
+      "rows": 51993,
+      "sha256": "2d66aedec02add7b39b3a3a3414da62d8abeda74c4061f915b68db68fd993332"
+    },
+    {
+      "path": "data\\raw\\cfpb\\u_s_bancorp\\2012.csv",
+      "rows": 3045,
+      "sha256": "5e992790842e78e1e0d620cf425dfb90b041f163d1f7989f8f4b5fd474d2d687"
+    },
+    {
+      "path": "data\\raw\\cfpb\\u_s_bancorp\\2013.csv",
+      "rows": 4053,
+      "sha256": "b95464460add3eae11963d7d5157b1517be0d8b408bcaf5abac618a4383252e8"
+    },
+    {
+      "path": "data\\raw\\cfpb\\u_s_bancorp\\2014.csv",
+      "rows": 5061,
+      "sha256": "8409ffc2c5451eec47ac42c3109d5b71c4e4f2f58010610120e17aae33b92ad3"
+    },
+    {
+      "path": "data\\raw\\cfpb\\u_s_bancorp\\2015.csv",
+      "rows": 5415,
+      "sha256": "33ed8a5b2929b057c037e6b6824f9032e40ab661ad75cbbd1d49f4355333f7dc"
+    },
+    {
+      "path": "data\\raw\\cfpb\\u_s_bancorp\\2016.csv",
+      "rows": 5235,
+      "sha256": "3f7535004e2a36eb32b35979c2401412c7b94a55aae3c6b221d6b31ef72a3222"
+    },
+    {
+      "path": "data\\raw\\cfpb\\u_s_bancorp\\2017.csv",
+      "rows": 5067,
+      "sha256": "81da365e9e2002254505ce847ef6a95bf019f5cd8348fcec86eec54f5ba4b288"
+    },
+    {
+      "path": "data\\raw\\cfpb\\u_s_bancorp\\2018.csv",
+      "rows": 4783,
+      "sha256": "a960e7004286d87ddaf40fcc6d80cf211a40692254fa0ee20106ccab6718863d"
+    },
+    {
+      "path": "data\\raw\\cfpb\\u_s_bancorp\\2019.csv",
+      "rows": 4947,
+      "sha256": "788324553b51ba7b798b37db4b4c11906500070607ccb609dac757b2d93cf6ba"
+    },
+    {
+      "path": "data\\raw\\cfpb\\u_s_bancorp\\2020.csv",
+      "rows": 8309,
+      "sha256": "b3a0085f833ff91d1384685271b07f7dbbdc215404edc037c98ce12643f34ddd"
+    },
+    {
+      "path": "data\\raw\\cfpb\\u_s_bancorp\\2021.csv",
+      "rows": 7619,
+      "sha256": "e29f0fd4efb924af898c67b9a4da1d44b78c7e82119d9b726fab84fdbbb40f03"
+    },
+    {
+      "path": "data\\raw\\cfpb\\u_s_bancorp\\2022.csv",
+      "rows": 7623,
+      "sha256": "23fe52d400742ae362dfac59837c6a67eb351af82a96e6e6dc98605401374bb9"
+    },
+    {
+      "path": "data\\raw\\cfpb\\u_s_bancorp\\2023.csv",
+      "rows": 8367,
+      "sha256": "143a8a59ad37c860c6af6ac813c47ae41976067e489194165efdb66b8f04d315"
+    },
+    {
+      "path": "data\\raw\\cfpb\\u_s_bancorp\\2024.csv",
+      "rows": 9141,
+      "sha256": "196a1157651e1d6f458fb30e6104cfefba508bc3aaf82cec2b62fcea1977d673"
+    },
+    {
+      "path": "data\\raw\\cfpb\\u_s_bancorp\\2025.csv",
+      "rows": 11173,
+      "sha256": "425adbff44281bb563dc5a88f5a6acb55ec290ab99c1781f0fdc9a44bf22a538"
+    },
+    {
+      "path": "data\\raw\\cfpb\\u_s_bancorp\\2026.csv",
+      "rows": 10277,
+      "sha256": "ff084ddf9b9412784e0f0cfe7f47ee694b681c99a789bd4de818da8967b47a07"
+    }
+  ],
+  "filters": {
+    "banks": {
+      "Bank of America": [
+        "BANK OF AMERICA, NATIONAL ASSOCIATION"
+      ],
+      "Capital One": [
+        "CAPITAL ONE FINANCIAL CORPORATION"
+      ],
+      "Citi": [
+        "CITIBANK, N.A."
+      ],
+      "JPMorgan Chase": [
+        "JPMORGAN CHASE & CO."
+      ],
+      "U.S. Bank": [
+        "U.S. BANCORP"
+      ],
+      "Wells Fargo": [
+        "WELLS FARGO & COMPANY"
+      ]
+    },
+    "has_narrative": true,
+    "products": [
+      "Bank account or service",
+      "Checking or savings account",
+      "Credit card",
+      "Credit card or prepaid card",
+      "Credit reporting",
+      "Credit reporting or other personal consumer reports",
+      "Credit reporting, credit repair services, or other personal consumer reports",
+      "Mortgage",
+      "Prepaid card"
+    ],
+    "since_year": 2012
+  },
+  "note": "Narratives are NOT distributed by CFPB; this extract is metadata-only. Synthetic narratives are generated separately (ADR-014).",
+  "processed": {
+    "counts_by_bank": {
+      "Bank of America": 168586,
+      "Capital One": 146705,
+      "Citi": 125494,
+      "JPMorgan Chase": 153299,
+      "U.S. Bank": 45003,
+      "Wells Fargo": 148630
+    },
+    "dropped_duplicates": 0,
+    "path": "data\\processed\\complaints.parquet",
+    "rows": 787717,
+    "sha256": "b35b3a94cb81ce57160dc90fa35aa5091bcadcd1aff715ca4362699e2123eea2"
+  },
+  "retrieved_at": "2026-10-03T21:10:30.075227+00:00",
+  "source": "CFPB Consumer Complaint Database (live search API, CSV export)"
+}
