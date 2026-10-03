@@ -1,7 +1,9 @@
 # RESOLVE developer commands. On Windows (no `make`), use ./make.ps1 <target>.
 .DEFAULT_GOAL := help
 .PHONY: help install lint format typecheck test \
-        data index up down seed seed-ci eval-pr eval-full audit-verify load
+        data data-cfpb data-ecfr data-bankdocs taxonomy-enums \
+        data-complaints data-accounts data-load data-card \
+        index up down ps seed seed-ci eval-pr eval-full audit-verify load
 
 help:  ## Show the available targets
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
@@ -26,7 +28,7 @@ test:  ## Run the test suite
 	uv run pytest
 
 # --- Data (Phase 1) ---------------------------------------------------------
-data: data-cfpb data-ecfr  ## (Phase 1) Build all data sources + manifests
+data: data-cfpb data-ecfr data-bankdocs  ## (Phase 1) Build all data sources + manifests
 
 data-cfpb:  ## (Phase 1) Ingest CFPB complaint metadata for the six banks
 	uv run python -m resolve.data.cfpb_ingest
@@ -34,11 +36,25 @@ data-cfpb:  ## (Phase 1) Ingest CFPB complaint metadata for the six banks
 data-ecfr:  ## (Phase 1) Ingest eCFR regulations (point-in-time, five rules)
 	uv run python -m resolve.data.ecfr_ingest
 
+data-bankdocs:  ## (Phase 1) Ingest public bank documents (manifest + fee tables)
+	uv run python -m resolve.data.bank_docs_ingest
+
 taxonomy-enums:  ## (Phase 1) Regenerate taxonomy_enums.py from taxonomy_map.yaml
 	uv run python -m resolve.data.taxonomy --generate-enums
 
+data-complaints:  ## (Phase 1) Load CFPB complaints into Postgres
+	uv run python -m resolve.data.complaints_load --truncate
+
 data-accounts:  ## (Phase 1) Generate synthetic accounts and load them into Postgres
 	uv run python -m resolve.data.synth_accounts --truncate
+
+# Accounts first: `make data-accounts` truncates accounts CASCADE, which also
+# empties complaints (complaints.account_id FK). Loading complaints afterwards
+# only truncates complaints (CASCADE reaches drafts), so both end up populated.
+data-load: data-accounts data-complaints  ## (Phase 1) Load synthetic accounts + complaints
+
+data-card:  ## (Phase 1) Generate docs/data_card.md from the ingested data
+	uv run python -m resolve.data.data_card
 
 # --- Targets implemented in later phases ------------------------------------
 index:  ## (Phase 3) Build/refresh Qdrant collections
