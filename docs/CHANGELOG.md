@@ -40,6 +40,16 @@ phase-by-phase plan (see `docs/PLAN.md`).
 - **ADR-016**: CFPB revised the product taxonomy twice (2017 consolidation, ~2023
   split/rename), so the canonical scheme is stable regulation-aligned families
   rather than CFPB's shifting product strings.
+- **Base Postgres schema** (`sql/001_schema.sql`): queues, app_users, user_queues,
+  accounts, complaints, transactions, disputes, drafts (+ indexes and the four
+  seeded queues). `complaints.narrative_raw` is nullable until narratives are
+  synthesised (ADR-014); RLS/audit/users come in Phase 6.
+- **Synthetic accounts** (`resolve.data.synth_accounts`, `make data-accounts`):
+  seeded, deterministic generation of accounts/transactions/disputes from
+  `account_scenarios.yaml` (Reg E/Z/X/V scenarios), with referential and temporal
+  invariant checks, and an idempotent async loader into Postgres. Pure generation
+  is unit-tested offline; an integration test exercises the real load (skips
+  without a database).
 
 ### Phase 0 — Setup and hygiene
 

@@ -122,6 +122,11 @@ disallow_incomplete_defs = false
 module = "curl_cffi.*"
 ignore_missing_imports = true
 
+[[tool.mypy.overrides]]
+# asyncpg ships no complete stubs; used only behind the synth_accounts load seam.
+module = "asyncpg.*"
+ignore_missing_imports = true
+
 # ---------------------------------------------------------------------------
 # Pytest.
 # ---------------------------------------------------------------------------

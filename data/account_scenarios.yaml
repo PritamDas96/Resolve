@@ -1,0 +1,62 @@
+# Synthetic account scenario templates (PLAN §7.6).
+#
+# Each scenario maps a product family to a generator and parameter ranges. The
+# generator builds an internally-consistent account (+ transactions, + an optional
+# dispute) whose facts suit that family's regulation, so account/regulation/
+# deadline joins are meaningful. Generation is fully seeded and deterministic.
+#
+# Ranges are [min, max] inclusive (sampled with the seeded RNG); lists are choices.
+# weight biases how often a scenario is drawn when generating a mixed population.
+
+scenarios:
+  # Reg E (12 CFR 1005.11) error-resolution on a deposit account: a disputed EFT,
+  # with notice timing that sometimes falls outside the 60-day window (edge cases).
+  - name: reg_e_error_resolution
+    family: deposits
+    generator: reg_e_error_resolution
+    weight: 3
+    params:
+      product_type: [checking, savings]
+      account_age_days: [15, 1500]
+      channel: [debit_card, pos, atm, foreign]
+      amount_cents: [1500, 250000]
+      notice_delay_days: [2, 75]
+      provisional_credit: [true, false]
+      resolved: [true, false]
+
+  # Reg Z (12 CFR 1026.13) billing-error on a credit card: a disputed statement item.
+  - name: reg_z_billing_error
+    family: cards
+    generator: reg_z_billing_error
+    weight: 3
+    params:
+      product_type: [credit_card]
+      account_age_days: [40, 3000]
+      channel: [pos, online, foreign]
+      amount_cents: [2000, 500000]
+      notice_delay_days: [3, 70]
+      provisional_credit: [true, false]
+      resolved: [true, false]
+
+  # Reg X (12 CFR 1024) mortgage servicing: a serviced loan with monthly payments.
+  - name: reg_x_servicing
+    family: mortgage
+    generator: reg_x_servicing
+    weight: 2
+    params:
+      product_type: [mortgage]
+      account_age_days: [400, 7000]
+      payment_cents: [120000, 600000]
+      num_payments: [3, 12]
+
+  # Reg V (FCRA, 12 CFR 1022) furnisher dispute: an account with a reporting dispute
+  # that has no underlying transaction.
+  - name: reg_v_furnisher
+    family: credit_reporting
+    generator: reg_v_furnisher
+    weight: 2
+    params:
+      product_type: [credit_card, checking]
+      account_age_days: [60, 3000]
+      notice_delay_days: [5, 60]
+      resolved: [true, false]

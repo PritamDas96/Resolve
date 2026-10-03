@@ -17,6 +17,7 @@ switch ($Target) {
     "data-cfpb" { uv run python -m resolve.data.cfpb_ingest }
     "data-ecfr" { uv run python -m resolve.data.ecfr_ingest }
     "taxonomy-enums" { uv run python -m resolve.data.taxonomy --generate-enums }
+    "data-accounts" { uv run python -m resolve.data.synth_accounts --truncate }
     "up"        { docker compose -f docker/compose.yaml up -d }
     "down"      { docker compose -f docker/compose.yaml down }
     "ps"        { docker compose -f docker/compose.yaml ps }
@@ -31,6 +32,7 @@ switch ($Target) {
         Write-Host "  data-cfpb  Ingest CFPB complaint metadata for the six banks"
         Write-Host "  data-ecfr  Ingest eCFR regulations (point-in-time, five rules)"
         Write-Host "  taxonomy-enums  Regenerate taxonomy_enums.py from taxonomy_map.yaml"
+        Write-Host "  data-accounts   Generate synthetic accounts and load them into Postgres"
         Write-Host "  up         Start the database stack (Postgres + Qdrant) via Docker"
         Write-Host "  down       Stop the database stack (keeps data)"
         Write-Host "  ps         Show database stack status"

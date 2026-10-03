@@ -37,6 +37,9 @@ data-ecfr:  ## (Phase 1) Ingest eCFR regulations (point-in-time, five rules)
 taxonomy-enums:  ## (Phase 1) Regenerate taxonomy_enums.py from taxonomy_map.yaml
 	uv run python -m resolve.data.taxonomy --generate-enums
 
+data-accounts:  ## (Phase 1) Generate synthetic accounts and load them into Postgres
+	uv run python -m resolve.data.synth_accounts --truncate
+
 # --- Targets implemented in later phases ------------------------------------
 index:  ## (Phase 3) Build/refresh Qdrant collections
 	@echo "Not implemented until Phase 3."
