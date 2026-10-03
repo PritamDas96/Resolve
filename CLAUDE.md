@@ -32,7 +32,9 @@ Docstrings cite the CFR paragraph for any regulatory rule.
 - Tracing: LangSmith (instead of the plan's Langfuse).
 
 ## Current phase
-**Phase 0 — Setup and hygiene.**
-- Goal: a repository that already looks professional before any AI code exists.
-- Done when: a fresh clone runs `uv sync && make test` successfully; gitleaks clean on full history.
-- Next: Phase 1 — Data foundation (CFPB + eCFR ingestion, taxonomy, synthetic accounts).
+**Phase 1 — Data foundation: COMPLETE.**
+- Delivered: CFPB + eCFR + bank-doc ingestion, taxonomy + generated enums, synthetic
+  accounts, Postgres load (complaints + accounts), and `docs/data_card.md`.
+- `make data` builds all sources; `make data-load` loads Postgres; `make data-card` writes the card.
+- Snapshot: 787,717 in-scope complaints (six banks), 7,329 eCFR point-in-time records.
+- Next: Phase 2 — Ground truth and golden sets (scoring functions, golden files).
