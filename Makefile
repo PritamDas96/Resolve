@@ -26,8 +26,13 @@ test:  ## Run the test suite
 	uv run pytest
 
 # --- Data (Phase 1) ---------------------------------------------------------
-data:  ## (Phase 1) Ingest CFPB complaint metadata for the six banks
+data: data-cfpb data-ecfr  ## (Phase 1) Build all data sources + manifests
+
+data-cfpb:  ## (Phase 1) Ingest CFPB complaint metadata for the six banks
 	uv run python -m resolve.data.cfpb_ingest
+
+data-ecfr:  ## (Phase 1) Ingest eCFR regulations (point-in-time, five rules)
+	uv run python -m resolve.data.ecfr_ingest
 
 # --- Targets implemented in later phases ------------------------------------
 index:  ## (Phase 3) Build/refresh Qdrant collections

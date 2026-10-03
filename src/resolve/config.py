@@ -63,6 +63,28 @@ IN_SCOPE_PRODUCTS: frozenset[str] = frozenset(
     }
 )
 
+# --- eCFR data-source constants (see ADR-015, PLAN §7.4) --------------------
+# The eCFR versioner API is public and, unlike CFPB, is NOT bot-walled: plain
+# httpx works (no curl_cffi needed). Point-in-time history begins ~2017-01-01,
+# and invalid issue dates are served as-of the nearest prior version rather than
+# 404'd, so snapshot dates are driven by the per-part ``versions`` endpoint.
+ECFR_API_BASE = "https://www.ecfr.gov/api/versioner/v1/"
+ECFR_TITLE = 12
+
+# The five in-scope CFPB-administered regulations, mapped from display name to
+# the Title-12 CFR part that contains them. Supplement I (official
+# interpretations) is ingested alongside each part.
+IN_SCOPE_REGULATIONS: dict[str, str] = {
+    "Reg E": "1005",  # Electronic Fund Transfers
+    "Reg Z": "1026",  # Truth in Lending
+    "Reg X": "1024",  # Real Estate Settlement Procedures (RESPA)
+    "Reg DD": "1030",  # Truth in Savings
+    "Reg V": "1022",  # Fair Credit Reporting (FCRA)
+}
+
+# Part -> display regulation name (inverse of IN_SCOPE_REGULATIONS).
+REGULATION_BY_PART: dict[str, str] = {part: name for name, part in IN_SCOPE_REGULATIONS.items()}
+
 
 class Settings(BaseSettings):
     """Validated application settings, sourced from the environment / ``.env``.
@@ -136,6 +158,14 @@ class Settings(BaseSettings):
     cfpb_request_delay_s: float = Field(
         default=1.0,
         description="Polite delay between CFPB export requests, in seconds (~1 req/s).",
+    )
+    ecfr_since_year: int = Field(
+        default=2017,
+        description="Earliest regulation snapshot year; eCFR point-in-time history begins 2017.",
+    )
+    ecfr_request_delay_s: float = Field(
+        default=1.0,
+        description="Polite delay between eCFR API requests, in seconds (~1 req/s).",
     )
 
 

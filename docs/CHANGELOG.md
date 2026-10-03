@@ -19,6 +19,17 @@ phase-by-phase plan (see `docs/PLAN.md`).
   across the API, CSV export, bulk zip and four mirrors), so this extract is
   metadata-only and narratives are generated synthetically from the real labels
   in a later task.
+- **eCFR ingestion** (`resolve.data.ecfr_ingest`, `make data-ecfr`): downloads
+  point-in-time XML for the five in-scope regulations (Reg E/Z/X/DD/V in Title 12)
+  at each part's real amendment dates, parses sections and their `(a)(1)(i)`
+  paragraph hierarchy, links Supplement I official interpretations to the
+  paragraphs they interpret, collapses identical text across snapshots into
+  `valid_from`/`valid_to` ranges, and writes `regulations.jsonl` + a committed
+  `ecfr.json` manifest. Validated end-to-end against the live API; fixture-based
+  unit tests keep CI offline. `make data` now builds CFPB + eCFR.
+- **ADR-015**: the eCFR API is not bot-walled (plain `httpx`), dates after the
+  latest issue date 404 (so snapshots are driven by the per-part `versions`
+  endpoint, no synthetic "today"), and point-in-time history begins ~2017.
 
 ### Phase 0 — Setup and hygiene
 

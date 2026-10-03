@@ -1,0 +1,61 @@
+{
+  "content_versions": [
+    {
+      "date": "2023-01-01",
+      "amendment_date": "2023-01-01",
+      "issue_date": "2023-01-01",
+      "identifier": "1005.11",
+      "name": "§ 1005.11 Procedures for resolving errors.",
+      "part": "1005",
+      "substantive": true,
+      "removed": false,
+      "subpart": "A",
+      "title": "12",
+      "type": "section"
+    },
+    {
+      "date": "2023-01-01",
+      "amendment_date": "2023-01-01",
+      "issue_date": "2023-01-01",
+      "identifier": "1005.13",
+      "name": "§ 1005.13 Administrative enforcement; record retention.",
+      "part": "1005",
+      "substantive": true,
+      "removed": false,
+      "subpart": "A",
+      "title": "12",
+      "type": "section"
+    },
+    {
+      "date": "2024-10-01",
+      "amendment_date": "2024-10-01",
+      "issue_date": "2024-10-01",
+      "identifier": "1005.11",
+      "name": "§ 1005.11 Procedures for resolving errors.",
+      "part": "1005",
+      "substantive": true,
+      "removed": false,
+      "subpart": "A",
+      "title": "12",
+      "type": "section"
+    },
+    {
+      "date": "2015-06-01",
+      "amendment_date": "2015-06-01",
+      "issue_date": "2015-06-01",
+      "identifier": "1005.11",
+      "name": "§ 1005.11 Procedures for resolving errors.",
+      "part": "1005",
+      "substantive": true,
+      "removed": false,
+      "subpart": "A",
+      "title": "12",
+      "type": "section"
+    }
+  ],
+  "meta": {
+    "title": "12",
+    "part": "1005",
+    "result_count": 4
+  }
+}
