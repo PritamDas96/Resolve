@@ -67,8 +67,10 @@ line-length = 100
 target-version = "py312"
 src = ["src", "tests"]
 # Don't format/lint the Markdown plan files — their code blocks are illustrative
-# (and sometimes pseudo-code) and must not be rewritten.
-extend-exclude = ["*.md"]
+# (and sometimes pseudo-code) and must not be rewritten. taxonomy_enums.py is
+# generated (verbatim CFPB strings exceed the line length) and verified in sync by
+# a test, so ruff must not rewrite it.
+extend-exclude = ["*.md", "src/resolve/data/taxonomy_enums.py"]
 
 [tool.ruff.lint]
 select = [

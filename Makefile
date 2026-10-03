@@ -34,6 +34,9 @@ data-cfpb:  ## (Phase 1) Ingest CFPB complaint metadata for the six banks
 data-ecfr:  ## (Phase 1) Ingest eCFR regulations (point-in-time, five rules)
 	uv run python -m resolve.data.ecfr_ingest
 
+taxonomy-enums:  ## (Phase 1) Regenerate taxonomy_enums.py from taxonomy_map.yaml
+	uv run python -m resolve.data.taxonomy --generate-enums
+
 # --- Targets implemented in later phases ------------------------------------
 index:  ## (Phase 3) Build/refresh Qdrant collections
 	@echo "Not implemented until Phase 3."

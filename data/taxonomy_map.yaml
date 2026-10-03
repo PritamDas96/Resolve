@@ -1,0 +1,132 @@
+# RESOLVE taxonomy map (PLAN §7.3, ADR-016).
+#
+# Canonical product taxonomy = four stable, regulation-aligned FAMILIES. CFPB
+# revised its product/issue names twice (2017 consolidation; ~2023 split/rename),
+# so raw "current" CFPB product strings are not a stable target — families are.
+#
+# Built and verified from the live CFPB aggregations API on 2026-10-03 (counts by
+# product/issue across pre-2017, 2018–2022 and 2024–2026 windows), NOT from memory.
+# The legacy issue map is intentionally conservative: only renames/crosswalks that
+# are clear from the data are mapped; anything ambiguous is left to UNMAPPED
+# (excluded from routing metrics, counted in the data card).
+
+# --- Families: canonical product families and the regulation each is governed by.
+families:
+  deposits:
+    label: Deposit accounts
+    regulation: Reg E / Reg DD
+  cards:
+    label: Credit and prepaid cards
+    regulation: Reg Z
+  mortgage:
+    label: Mortgage
+    regulation: Reg X
+  credit_reporting:
+    label: Credit reporting (as furnisher)
+    regulation: Reg V
+
+# --- Products: every observed in-scope CFPB product string -> canonical family.
+# Covers all three taxonomy eras. Out-of-scope products are absent -> UNMAPPED.
+products:
+  "Checking or savings account": deposits
+  "Bank account or service": deposits
+  "Credit card": cards
+  "Prepaid card": cards
+  "Credit card or prepaid card": cards
+  "Mortgage": mortgage
+  "Credit reporting or other personal consumer reports": credit_reporting
+  "Credit reporting, credit repair services, or other personal consumer reports": credit_reporting
+  "Credit reporting": credit_reporting
+
+# --- Family issues: the canonical (current, 2024+) CFPB issue strings observed for
+# each family. The union of the family's current product strings; the authority for
+# valid (family, issue) paths and for the generated Issue enum.
+family_issues:
+  deposits:
+    - "Managing an account"
+    - "Closing an account"
+    - "Problem with a lender or other company charging your account"
+    - "Problem caused by your funds being low"
+    - "Opening an account"
+    - "Incorrect information on your report"
+    - "Problem with a company's investigation into an existing problem"
+    - "Improper use of your report"
+    - "Problem with fraud alerts or security freezes"
+    - "Credit monitoring or identity theft protection services"
+    - "Unable to get your credit report or credit score"
+  cards:
+    - "Problem with a purchase shown on your statement"
+    - "Incorrect information on your report"
+    - "Getting a credit card"
+    - "Other features, terms, or problems"
+    - "Problem with a company's investigation into an existing problem"
+    - "Fees or interest"
+    - "Closing your account"
+    - "Problem when making payments"
+    - "Advertising and marketing, including promotional offers"
+    - "Trouble using your card"
+    - "Struggling to pay your bill"
+    - "Improper use of your report"
+    - "Credit monitoring or identity theft protection services"
+    - "Problem with fraud alerts or security freezes"
+    - "Unable to get your credit report or credit score"
+    - "Trouble using the card"
+    - "Problem with a purchase or transfer"
+    - "Problem getting a card or closing an account"
+    - "Unexpected or other fees"
+    - "Advertising"
+    - "Problem with overdraft"
+  mortgage:
+    - "Trouble during payment process"
+    - "Struggling to pay mortgage"
+    - "Applying for a mortgage or refinancing an existing mortgage"
+    - "Closing on a mortgage"
+    - "Incorrect information on your report"
+    - "Problem with a company's investigation into an existing problem"
+    - "Improper use of your report"
+    - "Credit monitoring or identity theft protection services"
+    - "Unable to get your credit report or credit score"
+    - "Problem with fraud alerts or security freezes"
+  credit_reporting:
+    - "Incorrect information on your report"
+    - "Improper use of your report"
+    - "Problem with a company's investigation into an existing problem"
+    - "Problem with fraud alerts or security freezes"
+    - "Unable to get your credit report or credit score"
+    - "Credit monitoring or identity theft protection services"
+    - "Problem with a company's investigation into an existing issue"
+    - "Identity theft protection or other monitoring services"
+    - "Dealing with your lender or servicer"
+    - "Problems at the end of the loan or lease"
+    - "Getting a loan"
+    - "Managing an account"
+    - "Other features, terms, or problems"
+    - "Problem with a purchase shown on your statement"
+    - "Struggling to repay your loan"
+
+# --- Issues: legacy/renamed CFPB issue string -> canonical current issue.
+# Only clear renames and well-established crosswalks (verified against observed
+# per-era counts). Current issues already equal to a canonical value need no entry.
+issues:
+  # Credit reporting renames (pre-2017 and 2018–2022 phrasing -> current).
+  "Incorrect information on credit report": "Incorrect information on your report"
+  "Credit reporting company's investigation": "Problem with a company's investigation into an existing problem"
+  "Problem with a credit reporting company's investigation into an existing problem": "Problem with a company's investigation into an existing problem"
+  "Unable to get credit report/credit score": "Unable to get your credit report or credit score"
+  "Improper use of my credit report": "Improper use of your report"
+  "Credit monitoring or identity protection": "Credit monitoring or identity theft protection services"
+  # Deposit rename (pre-2017 -> current).
+  "Problems caused by my funds being low": "Problem caused by your funds being low"
+  # Mortgage crosswalk (pre-2017 coarse categories -> current, per CFPB's 2017 map).
+  "Loan modification,collection,foreclosure": "Struggling to pay mortgage"
+  "Loan servicing, payments, escrow account": "Trouble during payment process"
+  "Application, originator, mortgage broker": "Applying for a mortgage or refinancing an existing mortgage"
+  "Credit decision / Underwriting": "Applying for a mortgage or refinancing an existing mortgage"
+  "Settlement process and costs": "Closing on a mortgage"
+  # Credit card crosswalk (pre-2017 granular -> current, clear cases only).
+  "Closing/Cancelling account": "Closing your account"
+  "APR or interest rate": "Fees or interest"
+  "Late fee": "Fees or interest"
+  "Billing disputes": "Problem with a purchase shown on your statement"
+  "Billing statement": "Problem with a purchase shown on your statement"
+  "Advertising and marketing": "Advertising and marketing, including promotional offers"

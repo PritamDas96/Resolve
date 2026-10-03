@@ -30,6 +30,16 @@ phase-by-phase plan (see `docs/PLAN.md`).
 - **ADR-015**: the eCFR API is not bot-walled (plain `httpx`), dates after the
   latest issue date 404 (so snapshots are driven by the per-part `versions`
   endpoint, no synthetic "today"), and point-in-time history begins ~2017.
+- **Taxonomy normalisation** (`resolve.data.taxonomy`, `taxonomy_map.yaml`):
+  maps every observed CFPB `product` string (all eras) to one of four stable,
+  regulation-aligned families (deposits/cards/mortgage/credit_reporting) and
+  normalises legacy `issue` strings to the current CFPB vocabulary, with anything
+  unmappable marked `UNMAPPED`. Generates `taxonomy_enums.py` (`Family`, `Issue`,
+  `FAMILY_ISSUES`) for structured-output grounding, kept in sync by a test. Map
+  built from the live CFPB aggregations API, not from memory.
+- **ADR-016**: CFPB revised the product taxonomy twice (2017 consolidation, ~2023
+  split/rename), so the canonical scheme is stable regulation-aligned families
+  rather than CFPB's shifting product strings.
 
 ### Phase 0 — Setup and hygiene
 
