@@ -49,7 +49,8 @@
       "PowerShell(./make.ps1 data)",
       "Bash(powershell -NoProfile -Command \"Get-Content 'C:\\\\Users\\\\PRITAM~1\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\C--Users-PritamDas-Documents-Projects-Consumer-Complaint-Resolution-Agent\\\\cee91da2-e6c4-4072-8517-39f25d98a831\\\\tasks\\\\bpr7pkwwy.output' -Tail 5\")",
       "Bash(powershell -NoProfile -Command \"Get-Content docs/data_card.md -Tail 40\")",
-      "Bash(awk '{print $5, $NF}')"
+      "Bash(awk '{print $5, $NF}')",
+      "PowerShell(./make.ps1 lint 2>&1 | Select-Object -Last 6; Write-Host \"=== TEST ===\"; ./make.ps1 test 2>&1 | Select-Object -Last 6)"
     ]
   }
 }
