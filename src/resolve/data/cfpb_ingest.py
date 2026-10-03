@@ -272,11 +272,16 @@ def build_export_params(
 
 @retry(
     reraise=True,
-    stop=stop_after_attempt(4),
-    wait=wait_exponential(multiplier=1, min=2, max=30),
+    stop=stop_after_attempt(6),
+    wait=wait_exponential(multiplier=2, min=5, max=120),
 )
 def _get_export(params: list[tuple[str, str]]) -> str:
-    """GET the CFPB export, impersonating a browser to pass Akamai (ADR-014)."""
+    """GET the CFPB export, impersonating a browser to pass Akamai (ADR-014).
+
+    The endpoint rate-limits sustained scraping with HTTP 429; the retry uses a
+    long exponential backoff (up to ~2 min) so a full six-bank crawl rides out
+    transient throttling. Honours a ``Retry-After`` header when present.
+    """
     from curl_cffi import requests as cffi_requests
 
     response = cffi_requests.get(
@@ -286,6 +291,11 @@ def _get_export(params: list[tuple[str, str]]) -> str:
         timeout=180,
     )
     status = int(response.status_code)
+    if status == 429:
+        retry_after = response.headers.get("Retry-After")
+        if retry_after and retry_after.isdigit():
+            time.sleep(min(int(retry_after), 120))
+        raise RuntimeError("CFPB export rate-limited (HTTP 429)")
     if status >= 400:
         raise RuntimeError(f"CFPB export returned HTTP {status}")
     return str(response.text)
@@ -395,18 +405,23 @@ def ingest(
         refresh=refresh,
     )
 
-    frames: list[pl.DataFrame] = []
+    # Filter each export to in-scope rows *before* concatenating. The raw exports
+    # include every product for a company (auto loans, debt collection, ...); the
+    # in-scope subset is far smaller, so filtering per-file keeps peak memory low
+    # enough for a full six-bank crawl.
+    bank_strings = set(companies)
+    scoped_frames: list[pl.DataFrame] = []
     exports: list[dict[str, object]] = []
     for path in paths:
         frame = parse_export_csv(path.read_text(encoding="utf-8"))
-        frames.append(frame)
         exports.append({"path": str(path), "sha256": sha256_file(path), "rows": frame.height})
+        scoped_frames.append(
+            filter_in_scope(frame, bank_strings=bank_strings, products=config.IN_SCOPE_PRODUCTS)
+        )
+        del frame
 
-    combined = pl.concat(frames, how="vertical")
-    scoped = filter_in_scope(
-        combined, bank_strings=set(companies), products=config.IN_SCOPE_PRODUCTS
-    )
-    deduped, dropped = deduplicate(scoped)
+    combined = pl.concat(scoped_frames, how="vertical")
+    deduped, dropped = deduplicate(combined)
     labelled = assign_bank_display(deduped, banks)
     final = labelled.sort("complaint_id")
 
