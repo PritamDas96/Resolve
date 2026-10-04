@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import abc
 import json
+import time
 from typing import TYPE_CHECKING, Protocol
 
 import httpx
@@ -157,6 +158,25 @@ class HttpGateway(_StructuredMixin):
             return self._groq(messages, model=model.removeprefix("groq/"), temperature=temperature)
         raise ValueError(f"unknown model provider for {model!r}")
 
+    @staticmethod
+    def _post(url: str, headers: dict[str, str], body: dict[str, object]) -> httpx.Response:
+        """POST with retry/backoff on transient 429/500/503; never leak the key on error.
+
+        The API key is sent only via headers (never the URL), and failures raise a
+        message that excludes the request URL so a leaked key can't appear in logs.
+        """
+        last_status = 0
+        for attempt in range(5):
+            response = httpx.post(url, headers=headers, json=body, timeout=120)
+            if response.status_code == 200:
+                return response
+            last_status = response.status_code
+            if response.status_code in (429, 500, 503):
+                time.sleep(min(2**attempt, 20))
+                continue
+            break
+        raise RuntimeError(f"LLM request failed with HTTP {last_status}")
+
     def _gemini(self, messages: Sequence[Message], *, model: str, temperature: float) -> Completion:
         system = "\n".join(m.content for m in messages if m.role == "system")
         contents = [
@@ -170,13 +190,11 @@ class HttpGateway(_StructuredMixin):
         }
         if system:
             body["systemInstruction"] = {"parts": [{"text": system}]}
-        response = httpx.post(
+        response = self._post(
             f"{_GEMINI_BASE}/models/{model}:generateContent",
-            params={"key": self._gemini_key},
-            json=body,
-            timeout=120,
+            {"x-goog-api-key": self._gemini_key},  # key in header, never the URL
+            body,
         )
-        response.raise_for_status()
         data = response.json()
         text = data["candidates"][0]["content"]["parts"][0]["text"]
         meta = data.get("usageMetadata", {})
@@ -187,17 +205,15 @@ class HttpGateway(_StructuredMixin):
         return Completion(text=text, model=f"gemini/{model}", usage=usage)
 
     def _groq(self, messages: Sequence[Message], *, model: str, temperature: float) -> Completion:
-        response = httpx.post(
+        response = self._post(
             f"{_GROQ_BASE}/chat/completions",
-            headers={"Authorization": f"Bearer {self._groq_key}"},
-            json={
+            {"Authorization": f"Bearer {self._groq_key}"},
+            {
                 "model": model,
                 "messages": [{"role": m.role, "content": m.content} for m in messages],
                 "temperature": temperature,
             },
-            timeout=120,
         )
-        response.raise_for_status()
         data = response.json()
         text = data["choices"][0]["message"]["content"]
         meta = data.get("usage", {})

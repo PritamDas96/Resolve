@@ -137,6 +137,11 @@ ignore_missing_imports = true
 module = "pdfplumber.*"
 ignore_missing_imports = true
 
+[[tool.mypy.overrides]]
+# scikit-learn ships no type stubs; used only in the classical routing baseline.
+module = "sklearn.*"
+ignore_missing_imports = true
+
 # ---------------------------------------------------------------------------
 # Pytest.
 # ---------------------------------------------------------------------------
@@ -148,4 +153,6 @@ pythonpath = ["src"]
 filterwarnings = [
     # qdrant-client 1.19 vs the pinned Qdrant 1.12 server: benign minor-version skew.
     "ignore:Qdrant client version.*:UserWarning",
+    # Starlette TestClient's httpx deprecation notice: not actionable here.
+    "ignore:Using `httpx` with `starlette.testclient`.*:DeprecationWarning",
 ]

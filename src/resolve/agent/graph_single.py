@@ -81,7 +81,8 @@ def run_case(
     route, intent, route_usage = route_complaint(gateway, masked, model=router_model)
     trace.append("route")
 
-    results = retrieve(query_text(intent), as_of=as_of, k=k)
+    # Scope retrieval to the router's regulation hint when present (sharper recall).
+    results = retrieve(query_text(intent), as_of=as_of, regulation=intent.regulation_hint, k=k)
     evidence = [
         Evidence(ref=r.citation_id, section=r.section, heading_path=r.heading_path, text=r.text)
         for r in results

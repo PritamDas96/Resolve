@@ -36,6 +36,30 @@ services:
       - qdrantdata:/qdrant/storage
     restart: unless-stopped
 
+  # The RESOLVE API. Start with the "app" profile:
+  #   docker compose -f docker/compose.yaml --profile app up -d
+  # Kept behind a profile so the default `make up` stays DB-only for local dev.
+  api:
+    profiles: ["app"]
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: resolve-api
+    env_file:
+      - ../.env
+    environment:
+      # Reach the sibling containers over the compose network, not localhost.
+      POSTGRES_DSN: postgresql://resolve:resolve@postgres:5432/resolve
+      QDRANT_URL: http://qdrant:6333
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      qdrant:
+        condition: service_started
+    restart: unless-stopped
+
 volumes:
   pgdata:
   qdrantdata:

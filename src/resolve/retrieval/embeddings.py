@@ -109,8 +109,12 @@ class GeminiDenseEmbedder:
         url = f"{_GEMINI_BASE}/models/{self.model}:batchEmbedContents"
         last_error = ""
         for attempt in range(5):
+            # Key via header, never the URL, so it cannot leak into logs/tracebacks.
             response = httpx.post(
-                url, params={"key": self._key}, json={"requests": requests}, timeout=120
+                url,
+                headers={"x-goog-api-key": self._key},
+                json={"requests": requests},
+                timeout=120,
             )
             if response.status_code == 200:
                 return [l2_normalise(e["values"]) for e in response.json()["embeddings"]]
