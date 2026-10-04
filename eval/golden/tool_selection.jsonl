@@ -1,0 +1,16 @@
+{"id":"T-001","prompt":"Look up account ACC-00123 and its status","expected_tool":"get_account"}
+{"id":"T-002","prompt":"What is the current status of account ACC-55?","expected_tool":"get_account"}
+{"id":"T-003","prompt":"Show the disputes filed on account ACC-00123","expected_tool":"get_account_disputes"}
+{"id":"T-004","prompt":"List all dispute records for this account","expected_tool":"get_account_disputes"}
+{"id":"T-005","prompt":"Pull up complaint 7812345 metadata","expected_tool":"get_complaint"}
+{"id":"T-006","prompt":"What product and issue is complaint 991 routed to?","expected_tool":"get_complaint"}
+{"id":"T-007","prompt":"What does Regulation E say about provisional credit?","expected_tool":"search_regulations"}
+{"id":"T-008","prompt":"Find the CFR section on billing-error resolution time limits","expected_tool":"search_regulations"}
+{"id":"T-009","prompt":"Which rule governs mortgage servicer notices of error?","expected_tool":"search_regulations"}
+{"id":"T-010","prompt":"Compute the provisional-credit deadline for a notice received on 2025-02-03","expected_tool":"compute_deadlines"}
+{"id":"T-011","prompt":"When is the Reg E determination due for a new account dispute?","expected_tool":"compute_deadlines"}
+{"id":"T-012","prompt":"Calculate the error-resolution deadlines for this debit-card dispute","expected_tool":"compute_deadlines"}
+{"id":"T-013","prompt":"Get the holder email on account ACC-9","expected_tool":"get_account"}
+{"id":"T-014","prompt":"Show the investigation timeline deadlines given the notice date","expected_tool":"compute_deadlines"}
+{"id":"T-015","prompt":"What are the disputes on account ACC-77 and their outcomes?","expected_tool":"get_account_disputes"}
+{"id":"T-016","prompt":"Retrieve the regulation text about unauthorized electronic fund transfers","expected_tool":"search_regulations"}
