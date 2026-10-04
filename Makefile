@@ -5,6 +5,7 @@
         data-complaints data-accounts data-load data-card \
         golden golden-deadlines golden-routing golden-pii golden-injection golden-tierc \
         golden-retrieval index index-sparse retrieval-eval retrieval-eval-dense \
+        serve demo baseline \
         up down ps seed seed-ci eval-pr eval-full audit-verify load
 
 help:  ## Show the available targets
@@ -92,6 +93,16 @@ retrieval-eval:  ## (Phase 3) Run the retrieval ablation (sparse) -> docs/retrie
 retrieval-eval-dense:  ## (Phase 3) Run the ablation incl. dense + hybrid arms
 	uv run python -m resolve.eval.runners.retrieval_eval --with-dense
 
+# --- Agent + API (Phase 4) --------------------------------------------------
+serve:  ## (Phase 4) Run the API locally with reload (uvicorn)
+	uv run uvicorn resolve.api.app:app --reload --port 8000
+
+demo:  ## (Phase 4) Draft a cited letter for a synthetic dev complaint (needs LLM quota)
+	uv run python -m resolve.agent.demo
+
+baseline:  ## (Phase 4) Train + score the classical TF-IDF routing baseline
+	uv run python -m resolve.baselines.tfidf_router
+
 # --- Targets implemented in later phases ------------------------------------
 up:  ## Start the local database stack (Postgres + Qdrant)
 	docker compose -f docker/compose.yaml up -d
@@ -102,11 +113,11 @@ ps:  ## Show the database stack status
 seed:  ## (Phase 6) Schema, RLS, audit, users + data into Postgres
 	@echo "Not implemented until Phase 6."
 seed-ci:  ## (Phase 5) Deterministic CI data slice
-	@echo "Not implemented until Phase 5."
-eval-pr:  ## (Phase 5) PR-subset evaluation vs baseline
-	@echo "Not implemented until Phase 5."
-eval-full:  ## (Phase 5) Full evaluation + drift + cost reports
-	@echo "Not implemented until Phase 5."
+	@echo "Golden sets are committed; no extra CI slice needed yet."
+eval-pr:  ## (Phase 5) Evaluation gate vs baseline (writes eval/reports/summary.*)
+	uv run python -m resolve.eval.runners.gate
+eval-full:  ## (Phase 5) Evaluation gate, refreshing the committed baseline
+	uv run python -m resolve.eval.runners.gate --update-baseline
 audit-verify:  ## (Phase 8) Verify the audit hash chain
 	@echo "Not implemented until Phase 8."
 load:  ## (Phase 9) Locust load test
