@@ -5,7 +5,7 @@
         data-complaints data-accounts data-load data-card \
         golden golden-deadlines golden-routing golden-pii golden-injection golden-tierc \
         golden-retrieval index index-sparse retrieval-eval retrieval-eval-dense \
-        serve demo baseline mcp drift \
+        serve demo ui baseline mcp drift \
         up down ps seed seed-ci eval-pr eval-full audit-verify load
 
 help:  ## Show the available targets
@@ -99,6 +99,9 @@ serve:  ## (Phase 4) Run the API locally with reload (uvicorn)
 
 demo:  ## (Phase 4) Draft a cited letter for a synthetic dev complaint (needs LLM quota)
 	uv run python -m resolve.agent.demo
+
+ui:  ## (Phase 11) Launch the Streamlit review console (Demo mode needs no quota)
+	uv run streamlit run src/resolve/ui/streamlit_app.py
 
 baseline:  ## (Phase 4) Train + score the classical TF-IDF routing baseline
 	uv run python -m resolve.baselines.tfidf_router
