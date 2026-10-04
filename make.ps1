@@ -43,6 +43,7 @@ switch ($Target) {
     "retrieval-eval-dense" { uv run python -m resolve.eval.runners.retrieval_eval --with-dense }
     "serve" { uv run uvicorn resolve.api.app:app --reload --port 8000 }
     "demo" { uv run python -m resolve.agent.demo }
+    "ui" { uv run streamlit run src/resolve/ui/streamlit_app.py }
     "baseline" { uv run python -m resolve.baselines.tfidf_router }
     "mcp" { uv run python -m resolve.mcp_server.server }
     "drift" { uv run python -m resolve.observability.drift }

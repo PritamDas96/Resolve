@@ -32,7 +32,17 @@ Docstrings cite the CFR paragraph for any regulatory rule.
 - Tracing: LangSmith (instead of the plan's Langfuse).
 
 ## Current phase
-**Phases 6-9 — MCP/auth/RLS, multi-agent+HITL, security, observability: COMPLETE → v0.2.**
+**Phase 11 — Proof & publication: COMPLETE → v1.0.** (Phase 10 Azure deploy skipped by choice.)
+- Professional Streamlit review console (`make ui`): Demo mode (no quota/Qdrant) + Live mode.
+- README results-first; `SYSTEM_CARD.md`, `THREAT_MODEL.md`, `docs/architecture.md` (Mermaid),
+  `FAILURES.md` (5 real failures), `docs/runbook.md`, ADR-002/003/004/009/013-017.
+- Phases 0-9 shipped (data, golden sets, retrieval, agent+API+gate, MCP/auth/RLS, multi-agent+HITL,
+  security, observability). 230 tests pass.
+- A detailed `TECHNICAL_GUIDE.md` exists **uncommitted** (personal study doc, gitignored intent).
+- Carried gaps (quota/data): dense retrieval numbers, judged N=3/κ, Presidio NER, Langfuse,
+  Locust run, Tier C 120 hand-labels (narratives, ADR-014).
+
+## Phases 6-9 — MCP/auth/RLS, multi-agent+HITL, security, observability: COMPLETE → v0.2.
 - Phase 6: `sql/002_rls.sql` queue-isolation RLS + `resolve_app` role; scoped JWTs
   (`security/auth.py`), RLS session (`security/rls.py`); 5 MCP tools (`mcp_server/`,
   mcp 2.x) enforce scope + RLS; `seed_users.py`; tool-selection baseline 0.875. Cross-queue
