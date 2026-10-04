@@ -23,3 +23,6 @@ eval/reports/
 Thumbs.db
 .idea/
 .vscode/
+
+# Personal study doc — intentionally never committed
+TECHNICAL_GUIDE.md
