@@ -146,6 +146,21 @@ class Settings(BaseSettings):
         description="Base URL of the Qdrant vector database.",
     )
 
+    # --- Retrieval (Phase 3) -------------------------------------------------
+    # fastembed/onnxruntime segfaults on this Python 3.13 Windows env (ADR-002),
+    # so dense vectors come from the Gemini embeddings API and sparse BM25 is a
+    # pure-Python encoder scored by Qdrant's IDF modifier.
+    qdrant_collection_regulations: str = Field(default="regulations")
+    qdrant_collection_bank_docs: str = Field(default="bank_docs")
+    embedding_model: str = Field(
+        default="gemini-embedding-001",
+        description="Gemini embeddings model (REST embedContent/batchEmbedContents).",
+    )
+    embedding_dim: int = Field(
+        default=768,
+        description="Requested embedding dimensionality (outputDimensionality); L2-normalised.",
+    )
+
     # --- Data ingestion ------------------------------------------------------
     data_dir: Path = Field(
         default=Path("data"),
