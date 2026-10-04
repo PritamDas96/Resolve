@@ -13,6 +13,8 @@ repos:
       - id: check-yaml
       - id: check-toml
       - id: check-added-large-files
+        # The committed routing golden set (3,000 rows, PLAN §7.8) is ~0.8 MB.
+        args: [--maxkb=1024]
       - id: detect-private-key
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
