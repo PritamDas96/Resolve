@@ -32,9 +32,16 @@ Docstrings cite the CFR paragraph for any regulatory rule.
 - Tracing: LangSmith (instead of the plan's Langfuse).
 
 ## Current phase
-**Phase 1 — Data foundation: COMPLETE.**
-- Delivered: CFPB + eCFR + bank-doc ingestion, taxonomy + generated enums, synthetic
-  accounts, Postgres load (complaints + accounts), and `docs/data_card.md`.
-- `make data` builds all sources; `make data-load` loads Postgres; `make data-card` writes the card.
-- Snapshot: 787,717 in-scope complaints (six banks), 7,329 eCFR point-in-time records.
-- Next: Phase 2 — Ground truth and golden sets (scoring functions, golden files).
+**Phase 2 — Ground truth and golden sets: COMPLETE.**
+- Delivered: deterministic deadline calculator (`domain/deadlines.py`, Reg E/Z/X/V,
+  100% on tests), `eval/metrics/` scoring (routing, spans, deadlines, retrieval,
+  citations, abstention), golden sets `routing_test.jsonl` (3000) + `routing_pr.jsonl`
+  (300) + `deadlines.jsonl` (400), `pii_reinsert.py`, `injection_suite.jsonl` (40),
+  `docs/labelling_guide.md`. `make golden` rebuilds all sets reproducibly.
+- Deferred (need synthesised narratives, ADR-014): full `pii_spans.jsonl` (500) and
+  `e2e_tier_c.jsonl` (120 hand-labelled) + 30-item dev set — synthetic samples ship now.
+- Next: Phase 3 — Retrieval (chunking, Qdrant hybrid index, point-in-time search, rerank).
+
+## Phase 1 — Data foundation: COMPLETE.
+- CFPB + eCFR + bank-doc ingestion, taxonomy + enums, synthetic accounts, Postgres
+  load, `docs/data_card.md`. Snapshot: 787,717 complaints, 7,329 eCFR records.

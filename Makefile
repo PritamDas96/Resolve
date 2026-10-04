@@ -3,6 +3,7 @@
 .PHONY: help install lint format typecheck test \
         data data-cfpb data-ecfr data-bankdocs taxonomy-enums \
         data-complaints data-accounts data-load data-card \
+        golden golden-deadlines golden-routing golden-pii golden-injection golden-tierc \
         index up down ps seed seed-ci eval-pr eval-full audit-verify load
 
 help:  ## Show the available targets
@@ -55,6 +56,24 @@ data-load: data-accounts data-complaints  ## (Phase 1) Load synthetic accounts +
 
 data-card:  ## (Phase 1) Generate docs/data_card.md from the ingested data
 	uv run python -m resolve.data.data_card
+
+# --- Golden sets (Phase 2) --------------------------------------------------
+golden: golden-deadlines golden-routing golden-pii golden-injection golden-tierc  ## (Phase 2) Rebuild all golden sets
+
+golden-deadlines:  ## (Phase 2) Generate the Tier B deadline golden set (400)
+	uv run python -m resolve.eval.golden.deadlines_gen
+
+golden-routing:  ## (Phase 2) Generate the Tier A routing golden set (3000 + 300 PR)
+	uv run python -m resolve.eval.golden.routing_gen
+
+golden-pii:  ## (Phase 2) Generate the synthetic PII span sample
+	uv run python -m resolve.data.pii_reinsert
+
+golden-injection:  ## (Phase 2) Generate the prompt-injection suite (40)
+	uv run python -m resolve.eval.golden.injection_gen
+
+golden-tierc:  ## (Phase 2) Generate the Tier C synthetic scaffold
+	uv run python -m resolve.eval.golden.tier_c_gen
 
 # --- Targets implemented in later phases ------------------------------------
 index:  ## (Phase 3) Build/refresh Qdrant collections

@@ -24,6 +24,18 @@ switch ($Target) {
     # afterwards leaves accounts intact, so both tables end up populated.
     "data-load" { uv run python -m resolve.data.synth_accounts --truncate; if ($?) { uv run python -m resolve.data.complaints_load --truncate } }
     "data-card" { uv run python -m resolve.data.data_card }
+    "golden" {
+        uv run python -m resolve.eval.golden.deadlines_gen
+        if ($?) { uv run python -m resolve.eval.golden.routing_gen }
+        if ($?) { uv run python -m resolve.data.pii_reinsert }
+        if ($?) { uv run python -m resolve.eval.golden.injection_gen }
+        if ($?) { uv run python -m resolve.eval.golden.tier_c_gen }
+    }
+    "golden-deadlines" { uv run python -m resolve.eval.golden.deadlines_gen }
+    "golden-routing" { uv run python -m resolve.eval.golden.routing_gen }
+    "golden-pii" { uv run python -m resolve.data.pii_reinsert }
+    "golden-injection" { uv run python -m resolve.eval.golden.injection_gen }
+    "golden-tierc" { uv run python -m resolve.eval.golden.tier_c_gen }
     "up"        { docker compose -f docker/compose.yaml up -d }
     "down"      { docker compose -f docker/compose.yaml down }
     "ps"        { docker compose -f docker/compose.yaml ps }
@@ -43,6 +55,7 @@ switch ($Target) {
         Write-Host "  data-accounts   Generate synthetic accounts and load them into Postgres"
         Write-Host "  data-load       Load complaints + synthetic accounts into Postgres"
         Write-Host "  data-card       Generate docs/data_card.md from the ingested data"
+        Write-Host "  golden          Rebuild all Phase 2 golden sets (deadlines, routing, pii, injection, tier-c)"
         Write-Host "  up         Start the database stack (Postgres + Qdrant) via Docker"
         Write-Host "  down       Stop the database stack (keeps data)"
         Write-Host "  ps         Show database stack status"
