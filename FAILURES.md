@@ -1,7 +1,31 @@
 # FAILURES.md — observed failures and fixes
 
-A running log of real failures seen while running RESOLVE on the dev set, per the
-Phase 4 practice of reading every output. Newest first.
+A running log of real failures seen while building and running RESOLVE, per the
+practice of reading every output. Newest first.
+
+## F-005 (correctness) — audit hashes unstable / insert rejected · FIXED
+
+**Seen:** the audit-chain integration test failed with asyncpg `DataError: expected a
+datetime … got 'str'`, and the hash would not have verified anyway.
+
+**Root cause:** `audit_log.ts` was `timestamptz`; binding an ISO string failed, and even
+if it inserted, Postgres normalises the timestamp, so the stored value differs from the
+string that was hashed — breaking the chain on verify.
+
+**Fix:** store `ts` as TEXT (exact ISO bytes round-trip), so `hash_event` is stable.
+Tests drop any pre-existing table so the current schema applies.
+
+## F-004 (correctness) — RLS broke the data loaders · FIXED
+
+**Seen:** enabling row-level security with `FORCE` would make `make data-load` fail —
+the owner-run loaders could no longer insert into `accounts`/`complaints`.
+
+**Root cause:** `FORCE ROW LEVEL SECURITY` subjects the table **owner** to RLS too, and
+there was no INSERT policy for the owner. Loaders run as the owner.
+
+**Fix:** use `ENABLE` (not `FORCE`): the owner bypasses RLS so loaders work, while the
+app's `resolve_app` role is subject to the queue-isolation policies. Proven by the
+cross-queue RLS integration test.
 
 ## F-003 (security) — API key leaked in an error URL · FIXED
 
