@@ -96,6 +96,32 @@ def test_cases_endpoint_drafts_cited_letter() -> None:
     assert "1005.11(c)(1)@2023-01-01" in body["evidence_refs"]
 
 
+def test_multi_case_pauses_then_resumes() -> None:
+    from resolve.agent.graph_multi import build_graph
+    from resolve.api.app import get_multi_graph
+
+    graph = build_graph(
+        FakeGateway([_router_json(), _letter_json()]),
+        _fake_retriever,
+        router_model="fake/r",
+        drafter_model="fake/d",
+    )
+    app = create_app()
+    app.dependency_overrides[get_multi_graph] = lambda: graph
+    client = TestClient(app)
+
+    started = client.post(
+        "/v1/cases/multi", json={"complaint": "unauthorized debit", "case_id": "M-1"}
+    )
+    assert started.status_code == 200
+    assert started.json()["paused"] is True
+    assert started.json()["letter"]["subject"]
+
+    decided = client.post("/v1/cases/M-1/decision", json={"decision": "approve"})
+    assert decided.status_code == 200
+    assert decided.json()["decision"] == "approve"
+
+
 def test_problem_json_on_error() -> None:
     # A gateway that returns unparseable JSON twice makes structured() raise -> 500.
     app = create_app()

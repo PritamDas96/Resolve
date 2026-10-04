@@ -13,12 +13,13 @@ from __future__ import annotations
 
 import uuid
 from datetime import date
-from typing import Annotated
+from typing import Annotated, Any
 
 from fastapi import Depends, FastAPI, Request
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 
+from resolve.agent.graph_multi import CaseGraphState, build_graph, resume_case, start_case
 from resolve.agent.graph_single import run_case
 from resolve.agent.router import route as route_complaint
 from resolve.agent.state import CaseResult, Route
@@ -58,6 +59,12 @@ class CaseRequest(BaseModel):
     case_id: str | None = None
 
 
+class DecisionRequest(BaseModel):
+    """Body for ``POST /v1/cases/{case_id}/decision`` (human review)."""
+
+    decision: str  # approve | reject | edit
+
+
 # --- dependencies (overridden in tests) -------------------------------------
 
 
@@ -71,8 +78,30 @@ def get_retriever() -> Retriever:
     return make_retriever()
 
 
+_multi_graph: object | None = None
+
+
+def get_multi_graph() -> object:
+    """Provide a process-wide multi-agent graph (lazy singleton; overridden by tests).
+
+    A single instance is required so a paused case's checkpoint survives between the
+    start call and the later /decision resume.
+    """
+    global _multi_graph
+    if _multi_graph is None:
+        settings = get_settings()
+        _multi_graph = build_graph(
+            build_gateway(settings),
+            make_retriever(settings),
+            router_model=settings.router_model,
+            drafter_model=settings.drafter_model,
+        )
+    return _multi_graph
+
+
 GatewayDep = Annotated[Gateway, Depends(get_gateway)]
 RetrieverDep = Annotated[Retriever, Depends(get_retriever)]
+MultiGraphDep = Annotated[object, Depends(get_multi_graph)]
 
 
 def _problem(status: int, title: str, detail: str, request: Request) -> JSONResponse:
@@ -147,6 +176,32 @@ def create_app(settings: Settings | None = None) -> FastAPI:
             drafter_model=settings.drafter_model,
             as_of=body.as_of,
         )
+
+    @application.post("/v1/cases/multi")
+    async def cases_multi_endpoint(body: CaseRequest, graph: MultiGraphDep) -> dict[str, Any]:
+        """Run the multi-agent graph until it pauses for human review."""
+        case_id = body.case_id or str(uuid.uuid4())
+        state: CaseGraphState = {
+            "case_id": case_id,
+            "complaint": body.complaint,
+            "as_of": body.as_of.isoformat() if body.as_of else None,
+        }
+        result = start_case(graph, state)
+        letter = result.get("letter")
+        return {
+            "case_id": case_id,
+            "paused": "__interrupt__" in result and "decision" not in result,
+            "citations_valid": result.get("citations_valid"),
+            "letter": letter.model_dump() if letter is not None else None,
+        }
+
+    @application.post("/v1/cases/{case_id}/decision")
+    async def case_decision_endpoint(
+        case_id: str, body: DecisionRequest, graph: MultiGraphDep
+    ) -> dict[str, Any]:
+        """Resume a paused case with a human decision (approve/reject/edit)."""
+        result = resume_case(graph, case_id, body.decision)
+        return {"case_id": case_id, "decision": result.get("decision")}
 
     return application
 

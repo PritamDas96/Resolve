@@ -32,7 +32,24 @@ Docstrings cite the CFR paragraph for any regulatory rule.
 - Tracing: LangSmith (instead of the plan's Langfuse).
 
 ## Current phase
-**Phases 4 & 5 — Agent, API, eval gate: COMPLETE → v0.1.**
+**Phases 6-9 — MCP/auth/RLS, multi-agent+HITL, security, observability: COMPLETE → v0.2.**
+- Phase 6: `sql/002_rls.sql` queue-isolation RLS + `resolve_app` role; scoped JWTs
+  (`security/auth.py`), RLS session (`security/rls.py`); 5 MCP tools (`mcp_server/`,
+  mcp 2.x) enforce scope + RLS; `seed_users.py`; tool-selection baseline 0.875. Cross-queue
+  isolation proven by an integration test.
+- Phase 7: `agent/graph_multi.py` (LangGraph: router->parallel reg+account->draft->review
+  interrupt; low-confidence abstains; evidence reducer); `limits.py`; `/v1/cases/multi` +
+  `/v1/cases/{id}/decision` resume; MemorySaver (AsyncPostgresSaver = durability swap); ADR-004.
+- Phase 8: hash-chained `audit_log` (`security/audit.py`, tamper-detected); rule-based PII
+  masker (`security/pii.py`); output guardrails (`security/guardrails.py`); 80-item injection
+  suite; `THREAT_MODEL.md` (OWASP LLM Top 10).
+- Phase 9: `observability/drift.py` (PSI/MMD -> `docs/drift.md`; real finding across the CFPB
+  taxonomy revisions); `observability/cost.py` (per-case USD); `docs/runbook.md`.
+- 230 tests pass. Carried gaps (quota/data): dense retrieval, judged N=3/kappa, Presidio NER,
+  Langfuse, Locust run, Tier C 120 hand-labels (narratives, ADR-014).
+- Next: Phase 10 — Azure deployment (v0.3); Phase 11 — proof + publication (v1.0).
+
+## Phases 4 & 5 — Agent, API, eval gate: COMPLETE → v0.1.
 - Phase 4: LLM gateway (Gemini/Groq + FakeGateway, key via header, ADR-017); single
   agent (router→retrieve→draft→validate) with citation grounding + safe abstention;
   classical TF-IDF baseline (`docs/baseline_routing.md`); FastAPI (`/health /ready

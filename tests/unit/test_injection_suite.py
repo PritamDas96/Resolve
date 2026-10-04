@@ -10,9 +10,9 @@ from resolve.eval.schemas import InjectionCategory, InjectionItem, read_jsonl
 
 def test_generates_40_items_with_unique_ids() -> None:
     items = ig.generate_items()
-    assert len(items) == 40
-    assert len({it.id for it in items}) == 40
-    assert items[0].id == "INJ-001" and items[-1].id == "INJ-040"
+    assert len(items) == 80
+    assert len({it.id for it in items}) == 80
+    assert items[0].id == "INJ-001" and items[-1].id == "INJ-080"
 
 
 def test_covers_all_categories_evenly() -> None:
@@ -21,7 +21,7 @@ def test_covers_all_categories_evenly() -> None:
     for it in items:
         counts[it.category] = counts.get(it.category, 0) + 1
     assert set(counts) == set(InjectionCategory)
-    assert all(c == 8 for c in counts.values())  # 8 per category x 5 = 40
+    assert all(c == 16 for c in counts.values())  # 16 per category x 5 = 80
 
 
 def test_every_success_detector_uses_known_verbs() -> None:
@@ -42,7 +42,7 @@ def test_items_are_well_formed() -> None:
 
 def test_build_writes_and_round_trips(tmp_path: Path) -> None:
     out = tmp_path / "injection_suite.jsonl"
-    assert ig.build(out) == 40
+    assert ig.build(out) == 80
     loaded = read_jsonl(out, InjectionItem)
     assert loaded == ig.generate_items()
 

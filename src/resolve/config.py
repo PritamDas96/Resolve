@@ -161,6 +161,19 @@ class Settings(BaseSettings):
         description="Requested embedding dimensionality (outputDimensionality); L2-normalised.",
     )
 
+    # --- Auth / authorisation (Phase 6) -------------------------------------
+    # Authorisation is enforced by Postgres RLS + JWT scopes, never by prompts.
+    jwt_secret: SecretStr = Field(
+        default=SecretStr("dev-insecure-placeholder-change-me-in-production-0000"),
+        description="HMAC secret for signing scoped JWTs. Override in any real deployment.",
+    )
+    jwt_algorithm: str = Field(default="HS256")
+    jwt_issuer: str = Field(default="resolve")
+    resolve_app_role: str = Field(
+        default="resolve_app",
+        description="Non-superuser Postgres role the app SET ROLEs into so RLS applies.",
+    )
+
     # --- Data ingestion ------------------------------------------------------
     data_dir: Path = Field(
         default=Path("data"),
