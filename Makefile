@@ -4,7 +4,8 @@
         data data-cfpb data-ecfr data-bankdocs taxonomy-enums \
         data-complaints data-accounts data-load data-card \
         golden golden-deadlines golden-routing golden-pii golden-injection golden-tierc \
-        index up down ps seed seed-ci eval-pr eval-full audit-verify load
+        golden-retrieval index index-sparse retrieval-eval retrieval-eval-dense \
+        up down ps seed seed-ci eval-pr eval-full audit-verify load
 
 help:  ## Show the available targets
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
@@ -75,9 +76,23 @@ golden-injection:  ## (Phase 2) Generate the prompt-injection suite (40)
 golden-tierc:  ## (Phase 2) Generate the Tier C synthetic scaffold
 	uv run python -m resolve.eval.golden.tier_c_gen
 
+golden-retrieval:  ## (Phase 2/3) Generate the eCFR retrieval golden
+	uv run python -m resolve.eval.golden.retrieval_gen
+
+# --- Retrieval (Phase 3) ----------------------------------------------------
+index:  ## (Phase 3) Index regulations into Qdrant (dense + sparse; needs embed quota)
+	uv run python -m resolve.retrieval.index
+
+index-sparse:  ## (Phase 3) Index regulations sparse-only (BM25; no embedding calls)
+	uv run python -m resolve.retrieval.index --no-dense
+
+retrieval-eval:  ## (Phase 3) Run the retrieval ablation (sparse) -> docs/retrieval_ablation.md
+	uv run python -m resolve.eval.runners.retrieval_eval
+
+retrieval-eval-dense:  ## (Phase 3) Run the ablation incl. dense + hybrid arms
+	uv run python -m resolve.eval.runners.retrieval_eval --with-dense
+
 # --- Targets implemented in later phases ------------------------------------
-index:  ## (Phase 3) Build/refresh Qdrant collections
-	@echo "Not implemented until Phase 3."
 up:  ## Start the local database stack (Postgres + Qdrant)
 	docker compose -f docker/compose.yaml up -d
 down:  ## Stop the local database stack (keeps data; add -v to wipe)

@@ -32,7 +32,20 @@ Docstrings cite the CFR paragraph for any regulatory rule.
 - Tracing: LangSmith (instead of the plan's Langfuse).
 
 ## Current phase
-**Phase 2 — Ground truth and golden sets: COMPLETE.**
+**Phase 3 — Retrieval: COMPLETE.**
+- Delivered: structure-aware chunking (`retrieval/chunking.py`), Qdrant index
+  (dense+sparse, PIT ordinals, idempotent UUIDv5), point-in-time dense/sparse/hybrid-RRF
+  search, SearchIntent + heuristic rewrite, lexical rerank + parent-child expansion,
+  eCFR retrieval golden (20 queries) and an ablation (`docs/retrieval_ablation.md`).
+  ADR-002/003/009.
+- Env constraint (ADR-002): `fastembed`/`onnxruntime` segfault on Py3.13 Windows, so
+  dense = Gemini embeddings API + pure-Python BM25 sparse. Free-tier embed quota is too
+  small to vector the ~5.9k-chunk corpus, so the committed index/ablation use the
+  **sparse** arm (`make index-sparse`); dense/hybrid run via `--with-dense` when quota allows.
+- Sparse ablation: recall@5 0.78 (PIT on), lexical rerank lifts recall@1 0.42->0.55.
+- Next: Phase 4 — baseline agent, classical router, API, Docker.
+
+## Phase 2 — Ground truth and golden sets: COMPLETE.
 - Delivered: deterministic deadline calculator (`domain/deadlines.py`, Reg E/Z/X/V,
   100% on tests), `eval/metrics/` scoring (routing, spans, deadlines, retrieval,
   citations, abstention), golden sets `routing_test.jsonl` (3000) + `routing_pr.jsonl`

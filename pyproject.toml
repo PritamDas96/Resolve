@@ -142,3 +142,7 @@ testpaths = ["tests"]
 addopts = "-ra -q --strict-markers"
 asyncio_mode = "auto"
 pythonpath = ["src"]
+filterwarnings = [
+    # qdrant-client 1.19 vs the pinned Qdrant 1.12 server: benign minor-version skew.
+    "ignore:Qdrant client version.*:UserWarning",
+]

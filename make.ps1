@@ -36,6 +36,11 @@ switch ($Target) {
     "golden-pii" { uv run python -m resolve.data.pii_reinsert }
     "golden-injection" { uv run python -m resolve.eval.golden.injection_gen }
     "golden-tierc" { uv run python -m resolve.eval.golden.tier_c_gen }
+    "golden-retrieval" { uv run python -m resolve.eval.golden.retrieval_gen }
+    "index" { uv run python -m resolve.retrieval.index }
+    "index-sparse" { uv run python -m resolve.retrieval.index --no-dense }
+    "retrieval-eval" { uv run python -m resolve.eval.runners.retrieval_eval }
+    "retrieval-eval-dense" { uv run python -m resolve.eval.runners.retrieval_eval --with-dense }
     "up"        { docker compose -f docker/compose.yaml up -d }
     "down"      { docker compose -f docker/compose.yaml down }
     "ps"        { docker compose -f docker/compose.yaml ps }
@@ -56,6 +61,9 @@ switch ($Target) {
         Write-Host "  data-load       Load complaints + synthetic accounts into Postgres"
         Write-Host "  data-card       Generate docs/data_card.md from the ingested data"
         Write-Host "  golden          Rebuild all Phase 2 golden sets (deadlines, routing, pii, injection, tier-c)"
+        Write-Host "  index-sparse    Index regulations into Qdrant (BM25 sparse; no embedding calls)"
+        Write-Host "  index           Index regulations (dense + sparse; needs embedding quota)"
+        Write-Host "  retrieval-eval  Run the retrieval ablation -> docs/retrieval_ablation.md"
         Write-Host "  up         Start the database stack (Postgres + Qdrant) via Docker"
         Write-Host "  down       Stop the database stack (keeps data)"
         Write-Host "  ps         Show database stack status"
