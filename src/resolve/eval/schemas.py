@@ -26,6 +26,7 @@ __all__ = [
     "InjectionItem",
     "PiiItem",
     "PiiSpan",
+    "RetrievalQuery",
     "RoutingItem",
     "Stratum",
     "TierCExpected",
@@ -145,6 +146,24 @@ class TierCItem(BaseModel):
     labeller: str
     labelled_on: date | None = None
     notes: str = ""
+
+
+# --- Retrieval golden -------------------------------------------------------
+
+
+class RetrievalQuery(BaseModel):
+    """One retrieval ground-truth query over the eCFR corpus (PLAN §8.7).
+
+    ``expected_sections`` are CFR section numbers (e.g. ``"1005.11"``); scoring
+    checks how many appear in the retrieved results' sections.
+    """
+
+    id: str
+    stratum: str
+    query: str
+    regulation_hint: str | None = None
+    as_of: date
+    expected_sections: list[str]
 
 
 # --- Tier C: injection ------------------------------------------------------

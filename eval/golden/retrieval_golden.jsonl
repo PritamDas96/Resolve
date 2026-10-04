@@ -1,0 +1,20 @@
+{"id":"Q-001","stratum":"single_hop","query":"time limit for provisional credit after an unauthorized debit card error notice","regulation_hint":"Reg E","as_of":"2023-06-01","expected_sections":["1005.11"]}
+{"id":"Q-002","stratum":"single_hop","query":"consumer liability for unauthorized electronic fund transfers from a lost or stolen access device","regulation_hint":"Reg E","as_of":"2023-06-01","expected_sections":["1005.6"]}
+{"id":"Q-003","stratum":"single_hop","query":"required initial disclosures of the terms and conditions of electronic fund transfer services","regulation_hint":"Reg E","as_of":"2023-06-01","expected_sections":["1005.7"]}
+{"id":"Q-004","stratum":"single_hop","query":"stop payment of a preauthorized electronic fund transfer","regulation_hint":"Reg E","as_of":"2023-06-01","expected_sections":["1005.10"]}
+{"id":"Q-005","stratum":"single_hop","query":"procedures for resolving errors and investigating a notice of error","regulation_hint":"Reg E","as_of":"2023-06-01","expected_sections":["1005.11"]}
+{"id":"Q-006","stratum":"single_hop","query":"time limit to resolve a credit card billing error dispute","regulation_hint":"Reg Z","as_of":"2023-06-01","expected_sections":["1026.13"]}
+{"id":"Q-007","stratum":"single_hop","query":"consumer right to withhold payment of a disputed amount during a billing error","regulation_hint":"Reg Z","as_of":"2023-06-01","expected_sections":["1026.13"]}
+{"id":"Q-008","stratum":"single_hop","query":"cardholder liability for unauthorized use of a credit card limited to fifty dollars","regulation_hint":"Reg Z","as_of":"2023-06-01","expected_sections":["1026.12"]}
+{"id":"Q-009","stratum":"single_hop","query":"mortgage servicer must acknowledge a notice of error within a set number of days","regulation_hint":"Reg X","as_of":"2023-06-01","expected_sections":["1024.35"]}
+{"id":"Q-010","stratum":"single_hop","query":"mortgage servicer response to a request for information","regulation_hint":"Reg X","as_of":"2023-06-01","expected_sections":["1024.36"]}
+{"id":"Q-011","stratum":"single_hop","query":"escrow account analysis and annual escrow statement requirements","regulation_hint":"Reg X","as_of":"2023-06-01","expected_sections":["1024.17"]}
+{"id":"Q-012","stratum":"single_hop","query":"annual percentage yield and account disclosures for a savings account","regulation_hint":"Reg DD","as_of":"2023-06-01","expected_sections":["1030.4"]}
+{"id":"Q-013","stratum":"single_hop","query":"subsequent disclosures when account terms change","regulation_hint":"Reg DD","as_of":"2023-06-01","expected_sections":["1030.5"]}
+{"id":"Q-014","stratum":"single_hop","query":"furnisher duty to investigate a consumer's direct dispute about credit report information","regulation_hint":"Reg V","as_of":"2023-06-01","expected_sections":["1022.43"]}
+{"id":"Q-015","stratum":"single_hop","query":"furnisher policies for the accuracy and integrity of information furnished to credit bureaus","regulation_hint":"Reg V","as_of":"2023-06-01","expected_sections":["1022.42"]}
+{"id":"Q-016","stratum":"multi_hop","query":"a credit card billing error that also led to a dispute about information on the credit report","regulation_hint":null,"as_of":"2023-06-01","expected_sections":["1026.13","1022.43"]}
+{"id":"Q-017","stratum":"multi_hop","query":"unauthorized debit card transaction: consumer liability and the error-resolution procedure","regulation_hint":"Reg E","as_of":"2023-06-01","expected_sections":["1005.6","1005.11"]}
+{"id":"Q-018","stratum":"point_in_time","query":"time limit for provisional credit after a debit card error notice","regulation_hint":"Reg E","as_of":"2019-06-01","expected_sections":["1005.11"]}
+{"id":"Q-019","stratum":"point_in_time","query":"time limit for provisional credit after a debit card error notice","regulation_hint":"Reg E","as_of":"2025-06-01","expected_sections":["1005.11"]}
+{"id":"Q-020","stratum":"point_in_time","query":"escrow account analysis requirements in force","regulation_hint":"Reg X","as_of":"2020-01-01","expected_sections":["1024.17"]}

@@ -8,6 +8,7 @@ ordinals for point-in-time range filters.
 
 from __future__ import annotations
 
+import argparse
 import sys
 import uuid
 from collections.abc import Iterable, Sequence
@@ -79,16 +80,18 @@ def _ensure_collection(client: QdrantClient, name: str, dim: int, *, recreate: b
 
 
 def _points(
-    chunks: Sequence[Chunk], dense: list[list[float]], sparse_enc: BM25SparseEncoder
+    chunks: Sequence[Chunk],
+    dense: list[list[float]] | None,
+    sparse_enc: BM25SparseEncoder,
 ) -> Iterable[models.PointStruct]:
-    for chunk, dense_vec in zip(chunks, dense, strict=True):
+    for i, chunk in enumerate(chunks):
         indices, values = sparse_enc.encode_document(chunk.embed_text)
+        vector: dict[str, object] = {SPARSE: models.SparseVector(indices=indices, values=values)}
+        if dense is not None:
+            vector[DENSE] = dense[i]
         yield models.PointStruct(
             id=point_id(chunk.chunk_id),
-            vector={
-                DENSE: dense_vec,
-                SPARSE: models.SparseVector(indices=indices, values=values),
-            },
+            vector=vector,
             payload=chunk_payload(chunk),
         )
 
@@ -99,8 +102,15 @@ def build_regulations_index(
     client: QdrantClient | None = None,
     recreate: bool = True,
     batch_size: int = 256,
+    with_dense: bool = True,
 ) -> int:
-    """Embed and upsert every regulation chunk into Qdrant; returns the point count."""
+    """Index every regulation chunk into Qdrant; returns the point count.
+
+    Sparse BM25 vectors are always written (fully local). Dense Gemini vectors are
+    written only when ``with_dense`` is True; set it False to build a sparse-only
+    index without any embedding-API calls (the dense/hybrid arms then need a later
+    dense pass once embedding quota is available — ADR-002).
+    """
     settings = settings or get_settings()
     client = client or QdrantClient(url=settings.qdrant_url)
     name = settings.qdrant_collection_regulations
@@ -108,27 +118,35 @@ def build_regulations_index(
     chunks = load_chunks(settings)
     _ensure_collection(client, name, settings.embedding_dim, recreate=recreate)
 
-    embedder = GeminiDenseEmbedder(settings)
+    embedder = GeminiDenseEmbedder(settings) if with_dense else None
     sparse_enc = BM25SparseEncoder()
     total = 0
     for start in range(0, len(chunks), batch_size):
         batch = chunks[start : start + batch_size]
-        dense = embedder.embed_documents([c.embed_text for c in batch])
+        dense = embedder.embed_documents([c.embed_text for c in batch]) if embedder else None
         client.upsert(collection_name=name, points=list(_points(batch, dense, sparse_enc)))
         total += len(batch)
-        log.info("regulations_indexed", done=total, total=len(chunks))
+        log.info("regulations_indexed", done=total, total=len(chunks), dense=with_dense)
     return total
 
 
-def main() -> int:
-    """CLI entry point: ``python -m resolve.retrieval.index``."""
+def main(argv: list[str] | None = None) -> int:
+    """CLI entry point: ``python -m resolve.retrieval.index`` (``--no-dense`` for sparse-only)."""
+    parser = argparse.ArgumentParser(description="Index the regulations corpus into Qdrant.")
+    parser.add_argument(
+        "--no-dense",
+        action="store_true",
+        help="Build sparse BM25 only (no Gemini embedding calls).",
+    )
+    args = parser.parse_args(argv)
     configure_logging()
     settings = get_settings()
-    count = build_regulations_index(settings)
+    count = build_regulations_index(settings, with_dense=not args.no_dense)
     log.info(
         "regulations_index_complete",
         collection=settings.qdrant_collection_regulations,
         points=count,
+        dense=not args.no_dense,
     )
     return 0
 
