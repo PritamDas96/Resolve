@@ -5,7 +5,7 @@
         data-complaints data-accounts data-load data-card \
         golden golden-deadlines golden-routing golden-pii golden-injection golden-tierc \
         golden-retrieval index index-sparse retrieval-eval retrieval-eval-dense \
-        serve demo baseline \
+        serve demo baseline mcp drift \
         up down ps seed seed-ci eval-pr eval-full audit-verify load
 
 help:  ## Show the available targets
@@ -102,6 +102,13 @@ demo:  ## (Phase 4) Draft a cited letter for a synthetic dev complaint (needs LL
 
 baseline:  ## (Phase 4) Train + score the classical TF-IDF routing baseline
 	uv run python -m resolve.baselines.tfidf_router
+
+# --- Security + observability (Phases 6, 8, 9) ------------------------------
+mcp:  ## (Phase 6) Run the MCP server (stdio transport)
+	uv run python -m resolve.mcp_server.server
+
+drift:  ## (Phase 9) Write docs/drift.md (family-mix PSI by year)
+	uv run python -m resolve.observability.drift
 
 # --- Targets implemented in later phases ------------------------------------
 up:  ## Start the local database stack (Postgres + Qdrant)
