@@ -32,7 +32,19 @@ Docstrings cite the CFR paragraph for any regulatory rule.
 - Tracing: LangSmith (instead of the plan's Langfuse).
 
 ## Current phase
-**Phase 3 — Retrieval: COMPLETE.**
+**Phases 4 & 5 — Agent, API, eval gate: COMPLETE → v0.1.**
+- Phase 4: LLM gateway (Gemini/Groq + FakeGateway, key via header, ADR-017); single
+  agent (router→retrieve→draft→validate) with citation grounding + safe abstention;
+  classical TF-IDF baseline (`docs/baseline_routing.md`); FastAPI (`/health /ready
+  /v1/route /v1/cases`, request-id, problem+json); Docker (`docker/Dockerfile`, compose
+  `app` profile). `make demo` drafts/abstains a cited letter end-to-end. `FAILURES.md` started.
+- Phase 5: rubric judge (Groq family + FakeJudge); eval gate (`eval/runners/gate.py`)
+  with baseline compare + `eval/reports/summary.*`, blocks on regression; CI workflow
+  `eval-gate.yaml`; `make eval-pr/eval-full`. Gate: deadlines 1.0, pii 1.0, retrieval@5 0.78.
+- Carried gaps: dense/hybrid retrieval + judged N=3/kappa need embedding/LLM quota; narratives (ADR-014).
+- Next: Phase 6 — MCP server, auth, Postgres row-level security.
+
+## Phase 3 — Retrieval: COMPLETE.
 - Delivered: structure-aware chunking (`retrieval/chunking.py`), Qdrant index
   (dense+sparse, PIT ordinals, idempotent UUIDv5), point-in-time dense/sparse/hybrid-RRF
   search, SearchIntent + heuristic rewrite, lexical rerank + parent-child expansion,

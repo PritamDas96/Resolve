@@ -44,6 +44,8 @@ switch ($Target) {
     "serve" { uv run uvicorn resolve.api.app:app --reload --port 8000 }
     "demo" { uv run python -m resolve.agent.demo }
     "baseline" { uv run python -m resolve.baselines.tfidf_router }
+    "eval-pr" { uv run python -m resolve.eval.runners.gate }
+    "eval-full" { uv run python -m resolve.eval.runners.gate --update-baseline }
     "up"        { docker compose -f docker/compose.yaml up -d }
     "down"      { docker compose -f docker/compose.yaml down }
     "ps"        { docker compose -f docker/compose.yaml ps }

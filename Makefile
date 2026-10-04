@@ -113,11 +113,11 @@ ps:  ## Show the database stack status
 seed:  ## (Phase 6) Schema, RLS, audit, users + data into Postgres
 	@echo "Not implemented until Phase 6."
 seed-ci:  ## (Phase 5) Deterministic CI data slice
-	@echo "Not implemented until Phase 5."
-eval-pr:  ## (Phase 5) PR-subset evaluation vs baseline
-	@echo "Not implemented until Phase 5."
-eval-full:  ## (Phase 5) Full evaluation + drift + cost reports
-	@echo "Not implemented until Phase 5."
+	@echo "Golden sets are committed; no extra CI slice needed yet."
+eval-pr:  ## (Phase 5) Evaluation gate vs baseline (writes eval/reports/summary.*)
+	uv run python -m resolve.eval.runners.gate
+eval-full:  ## (Phase 5) Evaluation gate, refreshing the committed baseline
+	uv run python -m resolve.eval.runners.gate --update-baseline
 audit-verify:  ## (Phase 8) Verify the audit hash chain
 	@echo "Not implemented until Phase 8."
 load:  ## (Phase 9) Locust load test
